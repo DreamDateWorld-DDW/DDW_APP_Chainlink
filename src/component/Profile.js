@@ -1,21 +1,29 @@
 import React from 'react'
-import { useEffect } from 'react'
 import { useState } from 'react'
 import Dropdown from './Dropdowm'
 import Gender from './Gender'
+import "./Profile.css"
+import { useLocation } from 'react-router-dom';
 
 var userDetailsValue = {}
 
 const Profile = () => {
+    const location = useLocation();
+    console.log(location);
 
     const [userDetails, setuserDetails] = useState({
-        name: " ", bio: " ", interest: [ ], gender: " ", image: " " 
-         
+        name: location.state.name , bio: " ", interest: [], gender: " ", image: " ",
+
     });
 
-    useEffect (()=> {
-        setuserDetails({...userDetails, name:"Vishal"})
-    })
+    const handleInterest = async (values) => {
+        setuserDetails({ ...userDetails, interest: values })
+    }
+    const handleGender = async (values) => {
+        setuserDetails({ ...userDetails, gender: values })
+    }
+
+   
     let name, value;
 
     const handleInputs = async (e) => {
@@ -25,38 +33,57 @@ const Profile = () => {
         setuserDetails({ ...userDetails, [name]: value })
         userDetailsValue = { ...userDetails, [name]: value };
         console.log(userDetailsValue);
+        
+    }
+    function previewFile() {
+        var preview = document.querySelector('img');
+        var file = document.querySelector('input[type=file]').files[0];
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
     }
 
-    const [interest, setInterest] = useState();
-   
+
+    
+
     return (
         <div className='profile'>
-        
-        <button>Back</button>
+
+
             <form onSubmit={handleInputs}>
-                <label htmlFor="Profile"> Profile
-                    <input type="file" name='profile' />
+
+                <label htmlFor="" className='profileImg' >
+                    <img  alt="/" height="100" width="100" />
+                    <input type="file" onChange={previewFile}/>
                 </label>
 
-                <label htmlFor="">
-                    Name :
-                    <input type="text" name='name' onChange={handleInputs} value={userDetails.name}/>
+                <label htmlFor="" className='p-2'>
+                    <p> Name : </p>
+                    <input type="text" name='name' readOnly value={userDetails.name} />
                 </label>
-
+                <br />
                 <label htmlFor=""  >
                     Intest :
-                    <Dropdown onInterest={handleInputs}/> 
+                    <Dropdown onInterest={handleInterest} />
                 </label>
+                <br />
                 <label htmlFor="">
                     Gender :
-                    <Gender gender="male" value={userDetails.gender} onChange={handleInputs}/>
+                    <Gender gender="male" onGender={handleGender} />
                 </label>
+                <br />
                 <label htmlFor="Bio">
                     Bio :
                     <textarea name="bio" id="" cols="30" rows="10" onChange={handleInputs} value={userDetails.bio} >Please update your bio  </textarea>
                 </label>
 
-                <button type="submit"  onClick={handleInputs}> Submit</button>
+                <button type="submit" onClick={handleInputs}> Submit</button>
 
             </form>
         </div>

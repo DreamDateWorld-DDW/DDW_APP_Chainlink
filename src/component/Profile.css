@@ -1,0 +1,16 @@
+.profile{
+    position: absolute;
+
+}
+
+.profile form{
+    position: absolute;
+    padding: 2px;
+}
+.profile form label{
+    justify-items: start;
+}
+
+.profileImg{
+    padding-top: 20px;
+}
