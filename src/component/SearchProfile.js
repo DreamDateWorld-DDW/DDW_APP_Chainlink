@@ -9,12 +9,12 @@ const SearchProfile = () => {
     const [state, setstate] = useState(location.state);
     return (
         <div>
-            <div>
-
+            <div style={{ position: "relative", left: "520px", paddingBottom: "10px", paddingTop: "4px", }}>
+                <Matchelement key={"fake ID"} name={state} src={"https://getwallpapers.com/wallpaper/full/9/2/b/1434187-vertical-avatar-movie-wallpaper-hd-1080x1920-laptop.jpg"}
+             lastseen={"x days"} onClick={["", console.log]}  />
             </div>
-            <Matchelement key={"fake ID"} name={state} src={"foo.png"} lastseen={"x days"} onClick={["", console.log]} />
-            <div>
-                <button> Like</button>
+            <div style={{padding:"3px", marginLeft:"10px"}}>
+                <button style={{  margin: "10px" }}> Like</button>
                 <button> Super Like</button>
             </div>
 

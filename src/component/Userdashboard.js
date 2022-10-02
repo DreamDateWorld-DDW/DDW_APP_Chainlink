@@ -18,24 +18,29 @@ const Userdashboard = () => {
 
     return (
         <div className='usersInfo'>
-           
+            <h1>User's Details </h1>
+
             <div className="userdetails">
+
                 <UserDetails />
             </div>
-            <hr />
+
             <div className="search">
                 <Search />
             </div>
-            <hr />
+
+            <h1>Send DDW Tokens </h1>
             <div className="tokensend">
                 <DDWTokenSend />
             </div>
-            <hr />
+
+            <h1>Claim DDW Tokens </h1>
             <div className="approvalToken">
                 <ApprovalToken />
             </div>
 
-            <div>
+            <div height="110" width="200" className='match'>
+
                 <Matchlist matches={matches} />
             </div>
 

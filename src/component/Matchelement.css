@@ -1,0 +1,10 @@
+.matches{
+    text-decoration: wavy;
+    border: 2px solid gray;
+    width: 400px;
+    padding: 0%;
+    margin: 0px;
+}
+.matches h1{
+    text-decoration: none;
+}

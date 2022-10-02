@@ -1,6 +1,7 @@
 .profile{
     position: absolute;
-
+    left: 580px;
+    margin: 20px;
 }
 
 .profile form{

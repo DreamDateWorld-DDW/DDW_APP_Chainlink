@@ -15,16 +15,17 @@ const ApprovalToken = () => {
 
     return (
         <div>
+        
             <div>
                 <label htmlFor="">
-                    Enter the Claimable :
+                    Enter Approval Token Amount :
                     <input type="search" name="claimableAmt" id="claimableAmt" onChange={handleChange} />
                 </label>
             </div>
             
-            <h3>claimable DDW Amount = {amount}</h3>
+            <p>Claimable DDW Amount : {amount}</p>
             <button onClick={sendChange}> Claim </button>
-            <hr />
+
         </div>
 
     )

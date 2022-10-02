@@ -11,17 +11,27 @@ function Navbar() {
   return (
     <div>
       <div className='Navbar'>
+        <div>
+        <button className='register'
+            onClick={() => navigate("/Userdashboard", { state: { name: discordName } })}>
+            Login with metamask </button>
+        </div>
 
-        <button className='register'>Login with metamask </button>
+          <div>
+            <h1>OR</h1>
+          </div>
 
+        <div>
         <button className='register'>Connect Your Wallet </button>
+        <button className='wallet'>Connect Discord </button>
+        </div>
 
         <button
           onClick={() => navigate("/Profile", { state: { name: discordName } })} >
           Register
         </button>
 
-        <button className='wallet'>Connect Discord </button>
+       
 
       </div>
 

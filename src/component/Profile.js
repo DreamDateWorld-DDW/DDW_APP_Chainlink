@@ -58,8 +58,8 @@ const Profile = () => {
     
 
     return (
-        <div className='profile'>
 
+        <div className='profile' >
 
             <form onSubmit={handleInputs}>
 
@@ -70,11 +70,11 @@ const Profile = () => {
 
                 <label htmlFor="" className='p-2'>
                     <p> Name : </p>
-                    <input type="text" name='name' readOnly value={userDetails.name} />
+                    <input type="text" name='name' readOnly value={userDetails.name} style={{marginBottom:"10px"}} />
                 </label>
                 <br />
-                <label htmlFor=""  >
-                    Intest :
+                <label htmlFor="" style={{marginTop:"10px"}} >
+                    Interest :
                     <Dropdown onInterest={handleInterest} />
                 </label>
                 <br />
