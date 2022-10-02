@@ -3,11 +3,12 @@ import { useState } from 'react'
 import Dropdown from './Dropdowm'
 import Gender from './Gender'
 import "./Profile.css"
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 var userDetailsValue = {}
 
 const Profile = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     console.log(location);
 
@@ -34,6 +35,10 @@ const Profile = () => {
         userDetailsValue = { ...userDetails, [name]: value };
         console.log(userDetailsValue);
         
+    }
+
+    async function callbackFunction(event) {
+        navigate("/Userdashboard");
     }
     function previewFile() {
         var preview = document.querySelector('img');
@@ -83,7 +88,7 @@ const Profile = () => {
                     <textarea name="bio" id="" cols="30" rows="10" onChange={handleInputs} value={userDetails.bio} >Please update your bio  </textarea>
                 </label>
 
-                <button type="submit" onClick={handleInputs}> Submit</button>
+                <button type="submit" onClick={callbackFunction}> Submit</button>
 
             </form>
         </div>
