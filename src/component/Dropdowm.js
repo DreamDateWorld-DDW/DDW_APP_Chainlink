@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 function Dropdown( {onInterest}) {
     const [options, setOptions] = useState([
         { id: 1, Interest: "Nightclubs" },
-        { id: 2, Interest: "Wishkey" },
+        { id: 2, Interest: "Whiskey" },
         { id: 3, Interest: "Indie" },
         { id: 4, Interest: "Hiking" },
     ])
