@@ -1,13 +1,80 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "./Navbar.css"
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 function Navbar() {
 
+  useEffect(() => {
+    handleDiscordData();
+    console.log(window.location.href.split('?')[0]);
+  })
 
-  const [discordName, setDiscordName] = useState("BashFunkey");
+
+  const [discordName, setDiscordName] = useState("Connect Discord");
   const navigate = useNavigate();
 
+  function handleDiscordData() {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        // console.log(params);
+        if (!params.code) return;
+        getInfo(params.code);
+  }
+
+  const getInfo = async (code) => {
+    const accessToken = await getToken(code);
+    const userInfo = await getUserInfo(accessToken);
+    const guildInfo = await getUserGuilds(accessToken);
+    console.log({ userInfo, guildInfo });
+    setDiscordName(`${userInfo.username}#${userInfo.discriminator}`)
+}
+
+const getToken = async (code) => {
+  try {
+      const options = new URLSearchParams({
+          client_id: process.env.REACT_APP_CLIENT_ID,
+          client_secret: process.env.REACT_APP_CLIENT_SECRET,
+          code,
+          grant_type: 'authorization_code',
+          redirect_uri: window.location.href.split('?')[0].slice(0, -1),
+          scope: 'identify guilds',
+      });
+      const result = await axios.post('https://discord.com/api/oauth2/token', options);
+      return result;
+  } catch (error) {
+      console.log(error.message);
+  }
+}
+const getUserInfo = async (accessToken) => {
+  // console.log(accessToken);
+  // console.log(`User ${accessToken.data.token_type} ${accessToken.data.access_token}`);
+  try {
+      const response = await axios.get('https://discord.com/api/users/@me', {
+          headers: {
+              authorization: `${accessToken.data.token_type} ${accessToken.data.access_token}`
+          }
+      });
+      // console.log(response.data);
+      return response.data;
+  } catch (error) {
+      console.log(error.message);
+  }
+}
+const getUserGuilds = async (accessToken) => {
+  // console.log(`Guild ${accessToken.data.token_type} ${accessToken.data.access_token}`);
+  try {
+      const response = await axios.get('https://discord.com/api/users/@me/guilds', {
+          headers: {
+              authorization: `${accessToken.data.token_type} ${accessToken.data.access_token}`
+          }
+      });
+      // console.log(response.data);
+      return response.data;
+  } catch (error) {
+      console.log(error.message);
+  }
+}
   return (
     <div>
       <div className='Navbar'>
@@ -23,7 +90,8 @@ function Navbar() {
 
         <div>
         <button className='register'>Connect Your Wallet </button>
-        <button className='wallet'>Connect Discord </button>
+        <a href={process.env.REACT_APP_OAUTH_LINK}>
+        <button className='wallet'>{discordName} </button></a>
         </div>
 
         <button
