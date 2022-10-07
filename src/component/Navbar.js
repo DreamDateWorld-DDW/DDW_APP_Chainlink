@@ -2,16 +2,11 @@ import React, { useState, useEffect } from 'react'
 import "./Navbar.css"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { ConnectWalletHandler, accountChangeHandler, chainChangedHandler } from "./Wallet"
 import detectEthereumProvider from '@metamask/detect-provider';
+import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from './utilities/contract';
 
 function Navbar() {
-  const [connectWallet, setConnectWallet] = useState("Connect Wallet");
  
-  async function connectWalletButton() {
-    var returnValue = await ConnectWalletHandler();
-    setConnectWallet(returnValue[0]);
-  }
   useEffect(() => {
     handleDiscordData();
     console.log(window.location.href.split('?')[0]);
@@ -24,6 +19,10 @@ function Navbar() {
 
 
   const [discordName, setDiscordName] = useState("Connect Discord");
+  const [discordId, setDiscordId] = useState(null);
+  const [walletAddress, setWalletAddress] = useState("Connect Wallet")
+  const [discordConnected, setDiscordConnected] = useState(false);
+  const [walletConnected, setWalletConnected] = useState(false);
   const navigate = useNavigate();
 
   function handleDiscordData() {
@@ -33,6 +32,34 @@ function Navbar() {
         if (!params.code) return;
         getInfo(params.code);
   }
+  
+  async function walletLogin() {
+    await checkCorrectNetwork();
+    let returnArray = await ConnectWalletHandler();
+    setWalletAddress(returnArray[0]);
+    setWalletConnected(true);
+  }
+
+
+
+  async function onRegister() {
+    if(walletConnected && discordConnected) {
+    var postData = {
+      content: `OnRegister ${discordId}`,
+      username: "Webhook Message Sender",
+      avatarURL: "foo.png"
+
+    }
+    var res = await axios.post(process.env.REACT_APP_DISCORD_WEBHOOK_URL, postData, 
+      {headers: {
+        'Content-Type': 'application/json'
+      }})
+    console.log(res);
+    navigate("/Profile", { state: { name: discordName, id: discordId } })
+    }
+    else
+    alert("Connect Wallet and Discord to Register");
+  }
 
   const getInfo = async (code) => {
     const accessToken = await getToken(code);
@@ -40,6 +67,21 @@ function Navbar() {
     const guildInfo = await getUserGuilds(accessToken);
     console.log({ userInfo, guildInfo });
     setDiscordName(`${userInfo.username}#${userInfo.discriminator}`)
+    setDiscordId(userInfo.id)
+    var inGuild = false;
+    guildInfo.every(element => {
+      if(element.id === process.env.REACT_APP_GUILD_ID){
+        inGuild = true;
+        setDiscordConnected(true);
+        console.log("InGuild")
+        return false;
+      }
+      return true;
+    });
+    if(inGuild === false){
+      alert("You are not in the server, first join")
+      window.location.reload();
+    }
 }
 
 const getToken = async (code) => {
@@ -87,12 +129,17 @@ const getUserGuilds = async (accessToken) => {
       console.log(error.message);
   }
 }
+
+detectEthereumProvider().then((provider) => {
+  provider.on("accountsChanged", accountChangeHandler);
+  provider.on("chainChanged", chainChangedHandler);
+});
   return (
     <div>
       <div className='Navbar'>
         <div>
         <button className='register'
-            onClick={() => navigate("/Userdashboard", { state: { name: discordName } })}>
+            onClick={() => navigate("/Userdashboard", { state: { wallet: walletAddress } })}>
             Login with metamask </button>
         </div>
 
@@ -101,15 +148,14 @@ const getUserGuilds = async (accessToken) => {
           </div>
 
         <div>
-
-
-          <button className='register' onClick={connectWalletButton}>{connectWallet} </button>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
         <button className='wallet'>{discordName} </button></a>
+        <button className='register'
+        onClick={walletLogin}> {walletAddress} </button>
         </div>
 
         <button
-          onClick={() => navigate("/Profile", { state: { name: discordName } })} >
+          onClick={onRegister} >
           Register
         </button>
 

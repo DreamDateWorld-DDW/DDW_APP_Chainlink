@@ -13,7 +13,7 @@ const Profile = () => {
     console.log(location);
 
     const [userDetails, setuserDetails] = useState({
-        name: location.state.name , bio: " ", interest: [], gender: " ", image: " ",
+        name: location.state.name , id: location.state.id, bio: " ", interest: [], gender: " ", image: " ",
 
     });
 
