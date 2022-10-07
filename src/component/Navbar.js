@@ -2,12 +2,24 @@ import React, { useState, useEffect } from 'react'
 import "./Navbar.css"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { ConnectWalletHandler, accountChangeHandler, chainChangedHandler } from "./Wallet"
+import detectEthereumProvider from '@metamask/detect-provider';
 
 function Navbar() {
-
+  const [connectWallet, setConnectWallet] = useState("Connect Wallet");
+ 
+  async function connectWalletButton() {
+    var returnValue = await ConnectWalletHandler();
+    setConnectWallet(returnValue[0]);
+  }
   useEffect(() => {
     handleDiscordData();
     console.log(window.location.href.split('?')[0]);
+
+    detectEthereumProvider().then((provider) => {
+      provider.on("accountsChanged", accountChangeHandler);
+      provider.on("chainChanged", chainChangedHandler);
+    });
   })
 
 
@@ -89,7 +101,9 @@ const getUserGuilds = async (accessToken) => {
           </div>
 
         <div>
-        <button className='register'>Connect Your Wallet </button>
+
+
+          <button className='register' onClick={connectWalletButton}>{connectWallet} </button>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
         <button className='wallet'>{discordName} </button></a>
         </div>
