@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const Search = () => {
+const Search = (props) => {
   const navigate = useNavigate();
     const [searchValue, setsearchValue] = useState();
     const handlechange = async(e) =>{
@@ -10,7 +10,7 @@ const Search = () => {
 
     const sendValue =async(e) => {
         console.log(searchValue);
-        navigate('/Searchprofile', {state: searchValue})
+        navigate('/Searchprofile', {state: {searchValue: searchValue, userDetails: props.userDetails}})
     }
 
   return (

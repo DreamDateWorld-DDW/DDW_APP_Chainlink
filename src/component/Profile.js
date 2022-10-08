@@ -13,7 +13,7 @@ const Profile = () => {
     console.log(location);
 
     const [userDetails, setuserDetails] = useState({
-        name: location.state.name , id: location.state.id, bio: " ", interest: [], gender: " ", image: " ",
+        name: location.state.name , id: location.state.id, wallet: location.state.wallet, bio: " ", interest: [], gender: " ", image: " ",
 
     });
 
@@ -38,7 +38,7 @@ const Profile = () => {
     }
 
     async function callbackFunction(event) {
-        navigate("/Userdashboard");
+        navigate("/Userdashboard", {state: {userDetails: userDetails}});
     }
     function previewFile() {
         var preview = document.querySelector('img');

@@ -6,7 +6,7 @@ import Matchelement from './Matchelement';
 const SearchProfile = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [state, setstate] = useState(location.state);
+    const [state, setstate] = useState(location.state.searchValue);
     return (
         <div>
             <div style={{ position: "relative", left: "520px", paddingBottom: "10px", paddingTop: "4px", }}>

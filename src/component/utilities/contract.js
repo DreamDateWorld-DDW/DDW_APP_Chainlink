@@ -43,7 +43,7 @@ export const checkCorrectNetwork = async () => {
   };
 
   export const accountChangeHandler = async (newAccount) => {
-    window.location.reload();
+    return newAccount;
   };
   export const getUserBalance = async (address) => {
     const provider = await detectEthereumProvider();

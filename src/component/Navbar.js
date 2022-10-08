@@ -10,11 +10,6 @@ function Navbar() {
   useEffect(() => {
     handleDiscordData();
     console.log(window.location.href.split('?')[0]);
-
-    detectEthereumProvider().then((provider) => {
-      provider.on("accountsChanged", accountChangeHandler);
-      provider.on("chainChanged", chainChangedHandler);
-    });
   })
 
 
@@ -54,8 +49,8 @@ function Navbar() {
       {headers: {
         'Content-Type': 'application/json'
       }})
-    console.log(res);
-    navigate("/Profile", { state: { name: discordName, id: discordId } })
+    console.log(res.status);
+    navigate("/Profile", { state: { name: discordName, id: discordId, wallet: walletAddress } })
     }
     else
     alert("Connect Wallet and Discord to Register");
@@ -131,7 +126,7 @@ const getUserGuilds = async (accessToken) => {
 }
 
 detectEthereumProvider().then((provider) => {
-  provider.on("accountsChanged", accountChangeHandler);
+  provider.on("accountsChanged", async (newAccount) => {setWalletAddress( await accountChangeHandler(newAccount))});
   provider.on("chainChanged", chainChangedHandler);
 });
   return (

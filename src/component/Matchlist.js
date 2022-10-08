@@ -7,7 +7,7 @@ import "./Matchlist.css"
 const Matchlist = (props) => {
     const navigate = useNavigate();
     const handleOnClick = (data) => {
-        navigate('/Matchprofile', { state: data })
+        navigate('/Matchprofile', { state: {data: data, userDetails: props.userDetails} })
 
     }
 
