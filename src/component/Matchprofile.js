@@ -72,7 +72,7 @@ const Matchprofile = () => {
             </div>
 
 
-            <button onClick={(e) => navigate('/Userdashboard')} style={{ margin: "10px" }}>Back</button>
+            <button onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails}})} style={{ margin: "10px" }}>Back</button>
         </div>
     )
 }

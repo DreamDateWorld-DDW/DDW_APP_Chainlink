@@ -7,6 +7,7 @@ const SearchProfile = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [state, setstate] = useState(location.state.searchValue);
+    const [userDetails, setuserDetails] = useState(location.state.userDetails);
     return (
         <div>
             <div style={{ position: "relative", left: "520px", paddingBottom: "10px", paddingTop: "4px", }}>
@@ -44,7 +45,7 @@ const SearchProfile = () => {
             
 
 
-            <button onClick={(e) => navigate('/Userdashboard')}>Back</button>
+            <button onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails}})}>Back</button>
         </div>
     )
 }
