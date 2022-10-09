@@ -1,6 +1,16 @@
 import React from 'react'
-import "./Matchelement.css"
+import styled from 'styled-components'
+import Profile from './Profile/Profile'
+const Section = styled.div`
+margin: auto;
+width: 50%;
+align-items: center;
+margin-top: 17em;
+`
+const Image = styled.img`
+border-radius: 12px;
 
+`
 const Matchelement = (props) => {
   const handleOnClick = (e)=> {
         e.preventDefault();
@@ -8,12 +18,12 @@ const Matchelement = (props) => {
   }
 
     return (
-    <div onClick={handleOnClick} className="matches" >
-        <img src={props.src} alt="" height="100" width="100" style={{borderRadius:"100%", paddingTop:"5px"}}/>
+    <Section onClick={handleOnClick} className="matches" >
+        <Profile/>
         <h2>{props.name}</h2>
         <h3>{props.lastseen}</h3>
 
-    </div>
+    </Section>
   )
 }
 

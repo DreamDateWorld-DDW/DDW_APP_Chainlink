@@ -1,9 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import "./Navbar.css"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from './utilities/contract';
+import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from '../utilities/contract';
+import styled from 'styled-components';
+import Button from '../Button/Button';
+const Section = styled.section`
+width: 100vw;
+background: black;
+`
+const Navigation = styled.nav`
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 85%;
+margin: 0 auto;
+min-height: 100vh;
+`
+const Heading = styled.h1`
+font-size: 1.75em;
+color: #429ef5;
+`
 
 function Navbar() {
  
@@ -28,7 +45,6 @@ function Navbar() {
   function handleDiscordData() {
     const urlSearchParams = new URLSearchParams(window.location.search);
         const params = Object.fromEntries(urlSearchParams.entries());
-        // console.log(params);
         if (!params.code) return;
         getInfo(params.code);
   }
@@ -135,35 +151,39 @@ detectEthereumProvider().then((provider) => {
   provider.on("chainChanged", chainChangedHandler);
 });
   return (
-    <div>
-      <div className='Navbar'>
+    <Section>
+      <Navigation >
         <div>
-        <button className='register'
+        <Button
+            buttonText = "Login with metamask"
             onClick={() => navigate("/Userdashboard", { state: { wallet: walletAddress } })}>
-            Login with metamask </button>
+             </Button>
         </div>
 
           <div>
-            <h1>OR</h1>
+            <Heading>OR</Heading>
           </div>
 
         <div>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
-        <button className='wallet'>{discordName} </button></a>
-        <button className='register'
-        onClick={walletLogin}> {walletAddress} </button>
+        <Button buttonText = {discordName}>{discordName} </Button></a>
+        </div>
+        <div>
+        <Button
+        buttonText = {walletAddress}
+        onClick={walletLogin}> {walletAddress} </Button>
         </div>
 
-        <button
+        <Button
+          buttonText = "Register"
           onClick={onRegister} >
-          Register
-        </button>
+        </Button>
 
        
 
-      </div>
+      </Navigation>
 
-    </div>
+    </Section>
   )
 }
 
