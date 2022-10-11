@@ -82,7 +82,7 @@ module DDW::DDWcoin {
     }
 
     /// Create new coins `CoinType` and deposit them into dst_addr's account.
-    public(friend) entry fun mint(
+    public(friend) fun mint(
         dst_addr: address,
         amount: u64,
     ) acquires Capabilities {
@@ -99,13 +99,13 @@ module DDW::DDWcoin {
     }
 
     /// Returns the balance of `owner` for provided `CoinType`.
-    public fun balance(owner: address): u64 {
+    public entry fun balance(owner: address): u64 {
         basecoin::balance<CoinType>(owner)
     }
 
     /// Creating a resource that stores balance of `CoinType` on user's account, withdraw and deposit event handlers.
     /// Required if user wants to start accepting deposits of `CoinType` in his account.
-    public(friend) entry fun register(account: &signer) {
+    public(friend) fun register(account: &signer) {
         basecoin::register<CoinType>(account);
     }
 }
