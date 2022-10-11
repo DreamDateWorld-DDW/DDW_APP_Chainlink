@@ -4,18 +4,21 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from './utilities/contract';
+import { connectToWallet, getAccountAddress, getAptosWallet, getWalletNetwork } from './utilities/aptos';
 
 function Navbar() {
  
   useEffect(() => {
     handleDiscordData();
     console.log(window.location.href.split('?')[0]);
-  })
+  },[]);
 
 
   const [discordName, setDiscordName] = useState("Connect Discord");
   const [discordId, setDiscordId] = useState(null);
-  const [walletAddress, setWalletAddress] = useState("Connect Wallet")
+  const [metamaskWalletAddress, setMetamaskWalletAddress] = useState("Connect Metamask Wallet");
+  const [aptosWalletAddress, setAptosWalletAddress] = useState("Connect Aptos Wallet");
+  const [blockchain, setBlockchain] = useState(null);
   const [discordConnected, setDiscordConnected] = useState(false);
   const [walletConnected, setWalletConnected] = useState(false);
   const navigate = useNavigate();
@@ -28,32 +31,87 @@ function Navbar() {
         getInfo(params.code);
   }
   
-  async function walletLogin() {
+  async function walletLoginMetamask() {
+    if(blockchain==="aptos") {
+      alert("Can only Register with one Blockchain");
+      window.location.reload();
+      return;
+    }
     await checkCorrectNetwork();
     let returnArray = await ConnectWalletHandler();
-    setWalletAddress(returnArray[0]);
+    setMetamaskWalletAddress(returnArray[0]);
     setWalletConnected(true);
+    setBlockchain("metamask");
+    return returnArray[0];
+  }
+
+  async function walletLoginAptos() {
+    if(blockchain==="metamask") {
+      alert("Can only Register with one Blockchain");
+      window.location.reload();
+      return;
+    }
+    if(!getAptosWallet()) {
+      alert("Install Aptos Wallet");
+      return;
+    }
+    if(connectToWallet()) {
+      let network = await getWalletNetwork();
+      console.log(network);
+      if(network!=="Devnet") {
+        alert("Switch to devnet in Aptos");
+        return;
+      }
+    let returnValue = await getAccountAddress();
+    if(returnValue!==null) {
+    setAptosWalletAddress(returnValue);
+    setWalletConnected(true);
+    setBlockchain("aptos");
+    }
+    }
   }
 
 
 
-  async function onRegister() {
+  async function onProceed() {
     if(walletConnected && discordConnected) {
-    var postData = {
-      content: `OnRegister ${discordId}`,
-      username: "Webhook Message Sender",
-      avatarURL: "foo.png"
-
-    }
-    var res = await axios.post(process.env.REACT_APP_DISCORD_WEBHOOK_URL, postData, 
-      {headers: {
-        'Content-Type': 'application/json'
-      }})
-    console.log(res.status);
-    navigate("/Profile", { state: { name: discordName, id: discordId, wallet: walletAddress } })
+    navigate("/Profile", { state: { name: discordName, blockchain: blockchain, id: discordId, wallet: metamaskWalletAddress?blockchain==="metamask":aptosWalletAddress } })
     }
     else
-    alert("Connect Wallet and Discord to Register");
+    alert("Connect Wallet and Discord to Proceed");
+  }
+
+  async function loginWithAptos() {
+    if(!getAptosWallet()) {
+      alert("Install Aptos Wallet");
+      return;
+    }
+    if(!connectToWallet()) return;
+      let network = await getWalletNetwork();
+      if(network!=="Devnet") {
+        alert("Switch to devnet in Aptos");
+        return;
+      }
+    let accountAddress = await getAccountAddress();
+
+    if(!accountAddress) return;
+    const transaction = {
+      type: "entry_function_payload",
+      function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::like_on_chain`,
+      arguments: ["0x1247b95267b98d23501cd3514edb1346fb7eb06c5c3736928ce97e9ab8831546"],
+      type_arguments: [],
+    };
+
+    try {
+      await window.aptos.signAndSubmitTransaction(transaction);
+    }
+    catch(error) {
+      console.log(error);
+    }
+
+
+    // navigate("/Userdashboard", { state: { wallet: metamaskWalletAddress?blockchain==="metamask":aptosWalletAddress} })
+
   }
 
   const getInfo = async (code) => {
@@ -126,7 +184,7 @@ const getUserGuilds = async (accessToken) => {
 }
 
 detectEthereumProvider().then((provider) => {
-  provider.on("accountsChanged", async (newAccount) => {setWalletAddress( await accountChangeHandler(newAccount))});
+  provider.on("accountsChanged", async (newAccount) => {setMetamaskWalletAddress( await accountChangeHandler(newAccount))});
   provider.on("chainChanged", chainChangedHandler);
 });
   return (
@@ -134,8 +192,8 @@ detectEthereumProvider().then((provider) => {
       <div className='Navbar'>
         <div>
         <button className='register'
-            onClick={() => navigate("/Userdashboard", { state: { wallet: walletAddress } })}>
-            Login with metamask </button>
+            onClick={loginWithAptos}>
+            Login with Aptos </button>
         </div>
 
           <div>
@@ -145,13 +203,17 @@ detectEthereumProvider().then((provider) => {
         <div>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
         <button className='wallet'>{discordName} </button></a>
-        <button className='register'
-        onClick={walletLogin}> {walletAddress} </button>
+        <div><button className='register' id='metamask'
+        onClick={walletLoginMetamask}> {metamaskWalletAddress} </button>
+        /
+        <button className='register' id='aptos'
+        onClick={walletLoginAptos}> {aptosWalletAddress} </button>
+        </div>
         </div>
 
         <button
-          onClick={onRegister} >
-          Register
+          onClick={onProceed} >
+          Proceed
         </button>
 
        

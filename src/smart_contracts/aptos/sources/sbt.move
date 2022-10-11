@@ -16,10 +16,10 @@ module DDW::DDWapproval {
     //
     // Data structures
     //
-
+    struct CoinType has store {}
     /// Capabilities resource storing mint and burn capabilities.
     /// The resource is stored on the account that initialized coin `CoinType`.
-    struct Capabilities<phantom CoinType> has key {
+    struct Capabilities has key {
         burn_cap: BurnCapability<CoinType>,
         freeze_cap: FreezeCapability<CoinType>,
         mint_cap: MintCapability<CoinType>,
@@ -30,18 +30,18 @@ module DDW::DDWapproval {
     //
 
     /// Withdraw an `amount` of coin `CoinType` from `account` and burn it.
-    public(friend) entry fun burn<CoinType>(
+    public(friend) entry fun burn(
         account: &signer,
         amount: u64,
     ) acquires Capabilities {
         let account_addr = @DDW;
 
         assert!(
-            exists<Capabilities<CoinType>>(account_addr),
+            exists<Capabilities>(account_addr),
             error::not_found(ENO_CAPABILITIES),
         );
 
-        let capabilities = borrow_global<Capabilities<CoinType>>(account_addr);
+        let capabilities = borrow_global<Capabilities>(account_addr);
 
         let to_burn = basecoin::withdraw<CoinType>(account, amount);
         basecoin::burn<CoinType>(to_burn, &capabilities.burn_cap);
@@ -49,7 +49,7 @@ module DDW::DDWapproval {
 
     /// Initialize new coin `CoinType` in Aptos Blockchain.
     /// Mint and Burn Capabilities will be stored under `account` in `Capabilities` resource.
-    public entry fun initialize<CoinType>(
+    public entry fun initialize(
         account: &signer,
         name: vector<u8>,
         symbol: vector<u8>,
@@ -64,7 +64,7 @@ module DDW::DDWapproval {
             monitor_supply,
         );
 
-        move_to(account, Capabilities<CoinType> {
+        move_to(account, Capabilities {
             burn_cap,
             freeze_cap,
             mint_cap,
@@ -72,30 +72,30 @@ module DDW::DDWapproval {
     }
 
     /// Create new coins `CoinType` and deposit them into dst_addr's account.
-    public(friend) entry fun mint<CoinType>(
+    public(friend) entry fun mint(
         dst_addr: address,
         amount: u64,
     ) acquires Capabilities {
         let account_addr = @DDW;
 
         assert!(
-            exists<Capabilities<CoinType>>(account_addr),
+            exists<Capabilities>(account_addr),
             error::not_found(ENO_CAPABILITIES),
         );
 
-        let capabilities = borrow_global<Capabilities<CoinType>>(account_addr);
+        let capabilities = borrow_global<Capabilities>(account_addr);
         let coins_minted = basecoin::mint<CoinType>(amount, &capabilities.mint_cap);
         basecoin::deposit<CoinType>(dst_addr, coins_minted);
     }
 
     /// Returns the balance of `owner` for provided `CoinType`.
-    public fun balance<CoinType>(owner: address): u64 {
+    public fun balance(owner: address): u64 {
         basecoin::balance<CoinType>(owner)
     }
 
     /// Creating a resource that stores balance of `CoinType` on user's account, withdraw and deposit event handlers.
     /// Required if user wants to start accepting deposits of `CoinType` in his account.
-    public(friend) entry fun register<CoinType>(account: &signer) {
+    public(friend) entry fun register(account: &signer) {
         basecoin::register<CoinType>(account);
     }
 }

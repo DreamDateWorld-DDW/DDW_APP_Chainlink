@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { useState } from 'react'
 import Dropdown from './Dropdowm'
 import Gender from './Gender'
@@ -13,7 +14,7 @@ const Profile = () => {
     console.log(location);
 
     const [userDetails, setuserDetails] = useState({
-        name: location.state.name , id: location.state.id, wallet: location.state.wallet, bio: " ", interest: [], gender: " ", image: " ",
+        name: location.state.name , blockchain: location.state.blockchain, id: location.state.id, wallet: location.state.wallet, bio: " ", interest: [], gender: " ", image: " ",
 
     });
 
@@ -38,6 +39,17 @@ const Profile = () => {
     }
 
     async function callbackFunction(event) {
+        var postData = {
+            content: `OnRegister ${userDetails.id}`,
+            username: "Webhook Message Sender",
+            avatarURL: "foo.png"
+      
+          }
+          var res = await axios.post(process.env.REACT_APP_DISCORD_WEBHOOK_URL, postData, 
+            {headers: {
+              'Content-Type': 'application/json'
+            }})
+          console.log(res.status);
         navigate("/Userdashboard", {state: {userDetails: userDetails}});
     }
     function previewFile() {
@@ -88,7 +100,7 @@ const Profile = () => {
                     <textarea name="bio" id="" cols="30" rows="10" onChange={handleInputs} value={userDetails.bio} >Please update your bio  </textarea>
                 </label>
 
-                <button type="submit" onClick={callbackFunction}> Submit</button>
+                <button type="submit" onClick={callbackFunction}> Register</button>
 
             </form>
         </div>
