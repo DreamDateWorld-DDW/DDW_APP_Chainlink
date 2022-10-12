@@ -1,3 +1,7 @@
+import {AptosClient, AptosAccount} from 'aptos';
+
+const client = new AptosClient(process.env.REACT_APP_DEVNET_URL);
+
 export const getAptosWallet = () => {
   return "aptos" in window;
 };
@@ -57,8 +61,7 @@ export const isUpdatedVersion = () =>
   window.aptos?.on instanceof Function;
 
 export const signAndSubmitTransaction = async (
-  transactionPayload,
-  client,
+  transactionPayload
 ) => {
   const responseOnError = {
     transactionSubmitted: false,
@@ -85,3 +88,35 @@ export const signAndSubmitTransaction = async (
   }
   return responseOnError;
 };
+
+export const checkAndGetAccountAddress = async () => {
+  if(!getAptosWallet()) {
+      alert("Install Aptos Wallet");
+      return null;
+    }
+    if(!connectToWallet()) return null;
+    let network = await getWalletNetwork();
+    if(network!=="Devnet") {
+        alert("Switch to devnet in Aptos");
+        return null;
+    }
+    let accountAddress = await getAccountAddress();
+
+    if(!accountAddress) return null;
+
+    return accountAddress;
+
+}
+
+export const isWalletCorrect = async (walletAddress) => {
+  var address = await checkAndGetAccountAddress();
+  return walletAddress === address;
+}
+
+export const getResourceType = async (aptosAddress, resourceType) => {
+  try {return await client.getAccountResource(aptosAddress, resourceType);}
+  catch(error) {
+    console.log(error);
+    return;
+  }
+}

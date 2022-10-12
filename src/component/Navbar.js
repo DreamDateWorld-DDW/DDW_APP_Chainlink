@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from './utilities/contract';
-import { connectToWallet, getAccountAddress, getAptosWallet, getWalletNetwork } from './utilities/aptos';
+import { checkAndGetAccountAddress, connectToWallet, getAccountAddress, getAptosWallet, getResourceType, getWalletNetwork } from './utilities/aptos';
+import { read_from_ipfs } from './utilities/web3storage';
 
 function Navbar() {
  
@@ -51,23 +52,11 @@ function Navbar() {
       window.location.reload();
       return;
     }
-    if(!getAptosWallet()) {
-      alert("Install Aptos Wallet");
-      return;
-    }
-    if(connectToWallet()) {
-      let network = await getWalletNetwork();
-      console.log(network);
-      if(network!=="Devnet") {
-        alert("Switch to devnet in Aptos");
-        return;
-      }
-    let returnValue = await getAccountAddress();
+    let returnValue = await checkAndGetAccountAddress();
     if(returnValue!==null) {
     setAptosWalletAddress(returnValue);
     setWalletConnected(true);
     setBlockchain("aptos");
-    }
     }
   }
 
@@ -75,43 +64,34 @@ function Navbar() {
 
   async function onProceed() {
     if(walletConnected && discordConnected) {
-    navigate("/Profile", { state: { name: discordName, blockchain: blockchain, id: discordId, wallet: metamaskWalletAddress?blockchain==="metamask":aptosWalletAddress } })
+    navigate("/Profile", { state: { name: discordName, blockchain: blockchain, id: discordId, wallet: blockchain==="metamask"?metamaskWalletAddress:aptosWalletAddress } })
     }
     else
     alert("Connect Wallet and Discord to Proceed");
   }
 
   async function loginWithAptos() {
-    if(!getAptosWallet()) {
-      alert("Install Aptos Wallet");
+    let accountAddress = await checkAndGetAccountAddress();
+
+    if(!accountAddress) return null;
+
+    var resource = await getResourceType(accountAddress, `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::UserInfo`);
+    if(!resource) {
+      alert("You are not Registered");
       return;
     }
-    if(!connectToWallet()) return;
-      let network = await getWalletNetwork();
-      if(network!=="Devnet") {
-        alert("Switch to devnet in Aptos");
-        return;
-      }
-    let accountAddress = await getAccountAddress();
-
-    if(!accountAddress) return;
-    const transaction = {
-      type: "entry_function_payload",
-      function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::like_on_chain`,
-      arguments: ["0x1247b95267b98d23501cd3514edb1346fb7eb06c5c3736928ce97e9ab8831546"],
-      type_arguments: [],
+    var files = await read_from_ipfs(resource.data.ipfsCid);
+    console.log(files);
+    var userDetails = {};
+    let reader = new FileReader();
+    reader.readAsText(files[0]);
+    reader.onload = function() {
+    userDetails = JSON.parse(reader.result);
+    console.log(userDetails);
+    read_from_ipfs(userDetails.image).then((image_files) => {
+      navigate("/Userdashboard", {state: {userDetails: userDetails, imageFile: image_files[0]}});
+    })
     };
-
-    try {
-      await window.aptos.signAndSubmitTransaction(transaction);
-    }
-    catch(error) {
-      console.log(error);
-    }
-
-
-    // navigate("/Userdashboard", { state: { wallet: metamaskWalletAddress?blockchain==="metamask":aptosWalletAddress} })
-
   }
 
   const getInfo = async (code) => {
@@ -134,6 +114,11 @@ function Navbar() {
     if(inGuild === false){
       alert("You are not in the server, first join")
       window.location.reload();
+    }
+    var mongo_res = await axios.get(process.env.REACT_APP_MONGODB_API_ENDPOINT + `discordName/${userInfo.username}#${userInfo.discriminator}`);
+    if(mongo_res.data){
+      alert("This Discord Account is Already Registered")
+      window.location.reload()
     }
 }
 

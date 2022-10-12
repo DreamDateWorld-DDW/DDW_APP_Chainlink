@@ -24,7 +24,7 @@ const Userdashboard = () => {
 
             <div className="userdetails">
 
-                <UserDetails userDetails={location.state.userDetails}/>
+                <UserDetails userDetails={location.state.userDetails} imageSrc={window.URL.createObjectURL(location.state.imageFile)}/>
             </div>
 
             <div className="search">
