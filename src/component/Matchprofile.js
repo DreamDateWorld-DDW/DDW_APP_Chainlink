@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Matchelement from './Matchelement';
 import axios from 'axios';
+import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
 
 
 const Matchprofile = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [state, setstate] = useState(location.state.data);
+    const [matchDetails, setMatchDetails] = useState(location.state.matchData);
     const [userDetails, setuserDetails] = useState(location.state.userDetails);
     const [VCTime, setVCTime] = useState(0);
 
@@ -19,8 +20,22 @@ const Matchprofile = () => {
         if(!Number.isInteger(parseInt(VCTime))){
         alert("Enter correct number in the field");
         return}
+        var isItRightWallet = await isWalletCorrect(userDetails.wallet);
+        if(!isItRightWallet) {
+            alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
+            return;
+        }
+        var trans_res = await signAndSubmitTransaction(
+            {
+                type: "entry_function_payload",
+                function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::create_private_space_on_chain`,
+                arguments: [matchDetails.wallet, parseInt(VCTime)],
+                type_arguments: [],
+            }
+        )
+        if(!trans_res.transactionSubmitted) return;
         var postData = {
-            content: `CreatePrivateSpace ${state.Id} ${userDetails.id} ${VCTime}`,
+            content: `CreatePrivateSpace ${matchDetails.Id} ${userDetails.id} ${VCTime}`,
             username: "Webhook Message Sender",
             avatarURL: "foo.png"
       
@@ -32,17 +47,18 @@ const Matchprofile = () => {
           console.log(res.status);
           document.getElementById("VCTime").value = "";
           setVCTime("")
+          alert("Private VC Created, check the Discord Server ;)");
     }
     return (
         <div>
             <div style={{ position: "relative", left: "520px", paddingBottom: "10px", paddingTop: "4px", }}>
-                <Matchelement key={state.id} name={state.name} src={state.src} lastseen={state.lastseen} onClick={["", console.log]} />
+                <Matchelement key={matchDetails.id} name={matchDetails.name} src={matchDetails.src} lastseen={matchDetails.lastseen} onClick={["", console.log]} />
             </div>
             <div>
                 <div className='UserDetails'>
                     <div>
                         <label htmlFor="">
-                            Interest = Nightclubs,Whiskey
+                            Interest = {matchDetails.interest.join(', ')}
                         </label>
                     </div>
 
@@ -50,7 +66,7 @@ const Matchprofile = () => {
 
 
                         <label htmlFor="">
-                            Bio = This is my bio
+                            Bio = {matchDetails.bio}
                         </label>
                     </div>
 
@@ -58,7 +74,7 @@ const Matchprofile = () => {
 
 
                         <label htmlFor="">
-                            Gender = Male
+                            Gender = {matchDetails.gender}
                         </label>
                     </div>
                 </div>
@@ -72,7 +88,7 @@ const Matchprofile = () => {
             </div>
 
 
-            <button onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails}})} style={{ margin: "10px" }}>Back</button>
+            <button onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})} style={{ margin: "10px" }}>Back</button>
         </div>
     )
 }

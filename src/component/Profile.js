@@ -109,7 +109,7 @@ const Profile = () => {
               'Content-Type': 'application/json'
             }})
           console.log(res.status);
-        navigate("/Userdashboard", {state: {userDetails: userDetails, imageFile: imageFile}});
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: window.URL.createObjectURL(imageFile)}});
     }
     function previewImage() {
         var preview = document.querySelector('img');

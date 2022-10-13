@@ -4,14 +4,13 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from './utilities/contract';
-import { checkAndGetAccountAddress, connectToWallet, getAccountAddress, getAptosWallet, getResourceType, getWalletNetwork } from './utilities/aptos';
+import { checkAndGetAccountAddress, getResourceType, signAndSubmitTransaction } from './utilities/aptos';
 import { read_from_ipfs } from './utilities/web3storage';
 
 function Navbar() {
  
   useEffect(() => {
     handleDiscordData();
-    console.log(window.location.href.split('?')[0]);
   },[]);
 
 
@@ -54,9 +53,14 @@ function Navbar() {
     }
     let returnValue = await checkAndGetAccountAddress();
     if(returnValue!==null) {
-    setAptosWalletAddress(returnValue);
-    setWalletConnected(true);
-    setBlockchain("aptos");
+      var resource = await getResourceType(returnValue, `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::UserInfo`);
+      if(resource) {
+        alert(`address ${returnValue} is already Registered, Switch to a different address`);
+        return;
+      }
+      setAptosWalletAddress(returnValue);
+      setWalletConnected(true);
+      setBlockchain("aptos");
     }
   }
 
@@ -68,6 +72,24 @@ function Navbar() {
     }
     else
     alert("Connect Wallet and Discord to Proceed");
+  }
+  async function onInitialize() {
+    await signAndSubmitTransaction(
+        {
+            type: "entry_function_payload",
+            function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWcoin::initialize`,
+            arguments: ["DDW Coin", "DDW", 8, false],
+            type_arguments: [],
+        }
+    )
+    await signAndSubmitTransaction(
+      {
+          type: "entry_function_payload",
+          function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWapproval::initialize`,
+          arguments: ["DDW Approval Token", "APP", 0, false],
+          type_arguments: [],
+      }
+  )
   }
 
   async function loginWithAptos() {
@@ -89,7 +111,7 @@ function Navbar() {
     userDetails = JSON.parse(reader.result);
     console.log(userDetails);
     read_from_ipfs(userDetails.image).then((image_files) => {
-      navigate("/Userdashboard", {state: {userDetails: userDetails, imageFile: image_files[0]}});
+      navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: window.URL.createObjectURL(image_files[0])}});
     })
     };
   }
@@ -199,6 +221,10 @@ detectEthereumProvider().then((provider) => {
         <button
           onClick={onProceed} >
           Proceed
+        </button>
+        <button hidden={true}
+          onClick={onInitialize} >
+          Initialize
         </button>
 
        

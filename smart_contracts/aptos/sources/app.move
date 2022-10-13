@@ -5,6 +5,7 @@ module DDW::DDWApp {
     use std::vector;
     use aptos_std::event::{Self, EventHandle};
     use aptos_framework::account;
+    use aptos_framework::timestamp;
 
 //:!:>resource
     struct UserInfo has key {
@@ -17,7 +18,9 @@ module DDW::DDWApp {
         superLikedListOnChain: vector<address>,
         superLikedListOffChain: vector<string::String>,
         matchedListOnChain: vector<address>,
+        matchedTimestampListOnChain: vector<u64>,
         matchedListOffChain: vector<string::String>,
+        matchedTimestampListOffChain: vector<u64>,
     }
 
     struct LastMatchEvent has key {
@@ -124,7 +127,9 @@ module DDW::DDWApp {
                 superLikedListOnChain: vector::empty<address>(),
                 superLikedListOffChain: vector::empty<string::String>(),
                 matchedListOnChain: vector::empty<address>(),
+                matchedTimestampListOnChain: vector::empty<u64>(),
                 matchedListOffChain: vector::empty<string::String>(),
+                matchedTimestampListOffChain: vector::empty<u64>(),
             };
             move_to(account, likes_info);
         };
@@ -137,8 +142,10 @@ module DDW::DDWApp {
             if(is_liked || is_super_liked) {
                 let likes_info = borrow_global_mut<LikesInfo>(to);
                 vector::push_back(&mut likes_info.matchedListOnChain, account_addr);
+                vector::push_back(&mut likes_info.matchedTimestampListOnChain, timestamp::now_seconds());
                 let matched_likes_info = borrow_global_mut<LikesInfo>(account_addr);
                 vector::push_back(&mut matched_likes_info.matchedListOnChain, to);
+                vector::push_back(&mut matched_likes_info.matchedTimestampListOnChain, timestamp::now_seconds());
                 if(exists<LastMatchEvent>(account_addr)) {
                     let last_match_event = borrow_global_mut<LastMatchEvent>(account_addr);
                     event::emit_event(&mut last_match_event.match_event, MatchEvent {
@@ -182,7 +189,9 @@ module DDW::DDWApp {
                 superLikedListOnChain: vector::singleton<address>(to),
                 superLikedListOffChain: vector::empty<string::String>(),
                 matchedListOnChain: vector::empty<address>(),
+                matchedTimestampListOnChain: vector::empty<u64>(),
                 matchedListOffChain: vector::empty<string::String>(),
+                matchedTimestampListOffChain: vector::empty<u64>(),
             };
             move_to(account, likes_info);
         };
@@ -195,8 +204,10 @@ module DDW::DDWApp {
             if(is_liked || is_super_liked) {
                 let likes_info = borrow_global_mut<LikesInfo>(to);
                 vector::push_back(&mut likes_info.matchedListOnChain, account_addr);
+                vector::push_back(&mut likes_info.matchedTimestampListOnChain, timestamp::now_seconds());
                 let matched_likes_info = borrow_global_mut<LikesInfo>(account_addr);
                 vector::push_back(&mut matched_likes_info.matchedListOnChain, to);
+                vector::push_back(&mut matched_likes_info.matchedTimestampListOnChain, timestamp::now_seconds());
                 if(exists<LastMatchEvent>(account_addr)) {
                     let last_match_event = borrow_global_mut<LastMatchEvent>(account_addr);
                     event::emit_event(&mut last_match_event.match_event, MatchEvent {

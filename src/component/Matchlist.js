@@ -6,8 +6,8 @@ import "./Matchlist.css"
 
 const Matchlist = (props) => {
     const navigate = useNavigate();
-    const handleOnClick = (data) => {
-        navigate('/Matchprofile', { state: {data: data, userDetails: props.userDetails} })
+    const handleOnClick = (matchData) => {
+        navigate('/Matchprofile', { state: {matchData: matchData, userDetails: props.userDetails, imageSrc: props.imageSrc} })
 
     }
 
@@ -15,7 +15,7 @@ const Matchlist = (props) => {
         <div>
             <div className='match'>
             <h1>Matches</h1>
-
+                {console.log(props.matches)}
                 {props.matches.map(c => <Matchelement key={c.id} name={c.name} src={c.src} lastseen={c.lastseen} onClick={[c, handleOnClick]} />)}
             </div>
 
