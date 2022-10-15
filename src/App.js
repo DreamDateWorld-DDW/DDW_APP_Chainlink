@@ -10,7 +10,6 @@ import Home from './component/Home';
 function App() {
   return (
     <div className="App">
-     
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<Home />} />
@@ -18,8 +17,6 @@ function App() {
             <Route exact path="/Matchprofile"   element={<Matchprofile />} />
             <Route exact path="/Userdashboard"   element={<Userdashboard />} />
             <Route exact path="/Searchprofile"   element={<SearchProfile />} />
-
-
           </Routes>
         </BrowserRouter>
        

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import "./Search.css"
+import SwipeButton from './SwipeButton/SwipeButton';
 const Search = () => {
   const navigate = useNavigate();
     const [searchValue, setsearchValue] = useState();
@@ -14,15 +15,16 @@ const Search = () => {
     }
 
   return (
-    <div>
+    <div className="form__group field">
         <label htmlFor="">
-        Enter a userName(#0000) : 
-              <input type="search" name="searchDiscord" id="searchDiscord"  onChange={handlechange}/>
+              <input placeholder='Enter user name' type="search" name="searchDiscord" id="searchDiscord"  onChange={handlechange} className="form__field" />
         
         </label>
 
-
-        <button type="submit" onClick={sendValue} > Search</button>
+        <div className = "swiperButton">
+        <SwipeButton  text = "Search" type="submit" onClick={sendValue} /> 
+        </div>
+        
     </div>
   )
 }

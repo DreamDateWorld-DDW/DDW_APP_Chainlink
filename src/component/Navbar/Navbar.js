@@ -5,17 +5,16 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from '../utilities/contract';
 import styled from 'styled-components';
 import Button from '../Button/Button';
-const Section = styled.section`
-width: 100vw;
-background: black;
-`
 const Navigation = styled.nav`
+top: 50%;
 display: flex;
 justify-content: space-between;
 align-items: center;
-width: 85%;
-margin: 0 auto;
-min-height: 100vh;
+width: 35%;
+margin-top: 20%;
+margin-left: 20%;
+z-index: 5;
+font-size: 1.1rem;
 `
 const Heading = styled.h1`
 font-size: 1.75em;
@@ -151,28 +150,19 @@ detectEthereumProvider().then((provider) => {
   provider.on("chainChanged", chainChangedHandler);
 });
   return (
-    <Section>
       <Navigation >
-        <div>
         <Button
             buttonText = "Login with metamask"
             onClick={() => navigate("/Userdashboard", { state: { wallet: walletAddress } })}>
              </Button>
-        </div>
 
-          <div>
             <Heading>OR</Heading>
-          </div>
 
-        <div>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
         <Button buttonText = {discordName}>{discordName} </Button></a>
-        </div>
-        <div>
         <Button
         buttonText = {walletAddress}
         onClick={walletLogin}> {walletAddress} </Button>
-        </div>
 
         <Button
           buttonText = "Register"
@@ -183,7 +173,7 @@ detectEthereumProvider().then((provider) => {
 
       </Navigation>
 
-    </Section>
+    // </Section>
   )
 }
 

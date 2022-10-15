@@ -1,28 +1,25 @@
 import React from 'react'
+import Button from './Button/Button'
 import "./DDWTokenSend.css"
+import SwipeButton from './SwipeButton/SwipeButton'
 
 const DDWTokenSend = () => {
     return (
-        <div>
-            <div className='startdiv'>
-                <label htmlFor="">
-                    Enter DDW Token Amount :
-                    <input type="search" name="enteredAmount" id="enteredAmt" />
-                </label>
-            </div>
-
-            <div className='startdiv'>
-                <label htmlFor="">
-                    Enter the recipients address :
-                    <input type="search" name="recipientAddress" id="recipientAddress" />
-                </label>
-            </div>
-
-            <div className='startdiv'>
-                <button type="submit">Send Tokens </button>
-            </div>
-
-        </div>
+        <>
+        <form>
+  <label>
+    <input name="enteredAmount" id="enteredAmt" type="text" placeholder="Enter DDW Token Amount"/>
+    <span>Enter DDW Token Amount</span>
+  </label>
+  
+  <label>
+    <input type="email" placeholder="Enter the recipients address" name="recipientAddress" id="recipientAddress"/>
+    <span>Enter the recipients address</span>
+  </label>
+ 
+  <input type="submit" value="Send"/>
+</form>
+        </>
     )
 }
 

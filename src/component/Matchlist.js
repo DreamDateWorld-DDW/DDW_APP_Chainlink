@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import Matchelement from './Matchelement';
+import Matchelement from './MatchElement/Matchelement';
 import "./Matchlist.css"
 
 

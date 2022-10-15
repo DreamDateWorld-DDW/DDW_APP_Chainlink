@@ -4,7 +4,7 @@ import Dropdown from './Dropdowm'
 import Gender from './Gender'
 import "./Profile.css"
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { DataArray } from './DataArray'
 var userDetailsValue = {}
 
 const Profile = () => {
@@ -13,12 +13,14 @@ const Profile = () => {
     console.log(location);
 
     const [userDetails, setuserDetails] = useState({
-        name: location.state.name , id: location.state.id, bio: " ", interest: [], gender: " ", image: " ",
+        name: "location.state.name" , id: "location.state.id", bio: " ", interest: [], gender: " ", image: " ",
 
     });
 
     const handleInterest = async (values) => {
         setuserDetails({ ...userDetails, interest: values })
+        DataArray.interests = userDetails.interest
+        DataArray.gender = userDetails.gender
     }
     const handleGender = async (values) => {
         setuserDetails({ ...userDetails, gender: values })

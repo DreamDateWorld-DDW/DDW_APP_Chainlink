@@ -1,22 +1,25 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Matchelement from './Matchelement';
-
+import Matchelement from './MatchElement/Matchelement';
+import "./MatchProfile.css"
+import { DataArray } from './DataArray';
+import TypeWriter from './TypeWriter/TypeWriter';
+import SwipeButton from './SwipeButton/SwipeButton';
 
 const Matchprofile = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [state, setstate] = useState(location.state);
+    const [state, setstate] = useState("location.state");
     return (
-        <div>
-            <div style={{ position: "relative", left: "520px", paddingBottom: "10px", paddingTop: "4px", }}>
-                <Matchelement key={state.id} name={state.name} src={state.src} lastseen={state.lastseen} onClick={["", console.log]} />
+        <div className='containerMarginTop1'>
+            <div className='containerMarginTop'>
+                <Matchelement interest = {DataArray.interests}  key={"state.id"} name={"state.name"} src={"state.src"} lastseen={"state.lastseen"} onClick={["", console.log]} />
             </div>
             <div>
                 <div className='UserDetails'>
                     <div>
                         <label htmlFor="">
-                            Interest = Nightclubs,Whiskey
+                        <TypeWriter text = "Interest = Nightclubs,Whiskey"/>
                         </label>
                     </div>
 
@@ -24,7 +27,8 @@ const Matchprofile = () => {
 
 
                         <label htmlFor="">
-                            Bio = This is my bio
+                        <TypeWriter text = "Bio = This is my bio"/>
+                            
                         </label>
                     </div>
 
@@ -32,21 +36,22 @@ const Matchprofile = () => {
 
 
                         <label htmlFor="">
-                            Gender = Male
+                        <TypeWriter text = "Gender = Male"/>
                         </label>
                     </div>
                 </div>
 
-                <label htmlFor="Time Entry">
-                    Enter Duration Of Your VC :
-                    <input type="text" />
+                <label htmlFor="Time Entry" style={{fontFamily:"Oswald, sans-serif"}}>
+                     <TypeWriter text = "Enter Duration Of Your VC :"/>
+                     
+                    <input type="text" className='vcInput'/>
                 </label>
 
-                <button> Start Your VC</button>
+                <button className='buttonMargin'> Start Your VC</button>
             </div>
 
 
-            <button onClick={(e) => navigate('/Userdashboard')} style={{ margin: "10px" }}>Back</button>
+            <button className='buttonMargin' onClick={(e) => navigate('/Userdashboard')} style={{ margin: "10px" }}>back</button>
         </div>
     )
 }

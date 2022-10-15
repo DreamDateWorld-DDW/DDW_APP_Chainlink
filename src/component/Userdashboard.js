@@ -5,9 +5,19 @@ import Search from './Search';
 import DDWTokenSend from './DDWTokenSend';
 import ApprovalToken from './ApprovalToken';
 import UserDetails from './UserDetails';
+import styled from 'styled-components';
 
 
-
+const TextField = styled.h1`
+padding: 1.3rem;
+left: 10%;
+margin-right: 7em;
+&:hover {
+  cursor: pointer;
+  transform: scale(1.1) skew(-8deg);
+  transition: transform 120ms;
+}
+`
 const Userdashboard = () => {
     const matches = [
         { lastseen: "6 days ago", id: 1, name: "Leanne Graham", src: "https://getwallpapers.com/wallpaper/full/9/2/b/1434187-vertical-avatar-movie-wallpaper-hd-1080x1920-laptop.jpg" },
@@ -18,31 +28,20 @@ const Userdashboard = () => {
 
     return (
         <div className='usersInfo'>
-            <h1>User's Details </h1>
-
-            <div className="userdetails">
+            <TextField >User's Details </TextField>
 
                 <UserDetails />
-            </div>
 
-            <div className="search">
                 <Search />
-            </div>
 
-            <h1>Send DDW Tokens </h1>
-            <div className="tokensend">
+            <TextField>Send DDW Tokens </TextField>
                 <DDWTokenSend />
-            </div>
 
-            <h1>Claim DDW Tokens </h1>
-            <div className="approvalToken">
+            <TextField>Claim DDW Tokens </TextField>
                 <ApprovalToken />
-            </div>
 
-            <div height="110" width="200" className='match'>
 
                 <Matchlist matches={matches} />
-            </div>
 
         </div>
     )
