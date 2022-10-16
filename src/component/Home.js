@@ -3,9 +3,11 @@ import Navbar from './Navbar/Navbar'
 import Logo from './Logo/Logo.png'
 import styledComponents from 'styled-components'
 import BackgroundRiseAndShine from './BackgroundRiseAndShine/BackgroundRiseAndShine'
+import styled from 'styled-components'
 
-const Section = styledComponents.section`
+const Section = styled.section`
 width: 100vw;
+background: #000;
 `
 const Image = styledComponents.img`
 position: fixed;

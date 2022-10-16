@@ -5,6 +5,7 @@ import Gender from './Gender'
 import "./Profile.css"
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DataArray } from './DataArray'
+import Button from './Button/Button'
 var userDetailsValue = {}
 
 const Profile = () => {
@@ -76,21 +77,20 @@ const Profile = () => {
                 </label>
                 <br />
                 <label htmlFor="" style={{marginTop:"10px"}} >
-                    Interest :
+                    Interest
                     <Dropdown onInterest={handleInterest} />
                 </label>
                 <br />
                 <label htmlFor="">
-                    Gender :
+                    Gender
                     <Gender gender="male" onGender={handleGender} />
                 </label>
                 <br />
                 <label htmlFor="Bio">
-                    Bio :
-                    <textarea name="bio" id="" cols="30" rows="10" onChange={handleInputs} value={userDetails.bio} >Please update your bio  </textarea>
+                    <textarea wrap='off' className='textArea' placeholder='Please update your bio' name="bio" id="" cols="30" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
                 </label>
 
-                <button type="submit" onClick={callbackFunction}> Submit</button>
+                <Button buttonText = "submit" type="submit" onClick={callbackFunction}/>
 
             </form>
         </div>
