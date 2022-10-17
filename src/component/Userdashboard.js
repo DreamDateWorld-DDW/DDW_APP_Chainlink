@@ -51,7 +51,7 @@ const Userdashboard = () => {
                 matchDetails.id = index;
                 matchListValue.push(matchDetails);
                 console.log("loop index inside onload", index);
-                if(matchListValue.length == matchListOnChain.length) {
+                if(matchListValue.length === matchListOnChain.length) {
                         
                     setMatches(matchListValue);
                     console.log("set matches", matchListValue);
