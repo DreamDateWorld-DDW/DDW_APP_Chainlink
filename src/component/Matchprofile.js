@@ -87,7 +87,7 @@ const Matchprofile = () => {
                 <label htmlFor="Time Entry" style={{fontFamily:"Oswald, sans-serif"}}>
                      <TypeWriter text = "Enter Duration Of Your VC in minutes:"/>
                      
-                     <input type="text" id="VCTime" onChange={handleTimeEntry}/>
+                     <input type="text" id="VCTime" className="vcInput" onChange={handleTimeEntry}/>
                 </label>
 
                 <button className='buttonMargin' onClick={startVC}> Start Your VC</button>
