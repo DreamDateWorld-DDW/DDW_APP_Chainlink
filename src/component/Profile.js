@@ -160,7 +160,7 @@ const Profile = () => {
                 </label>
                 <br />
                 <label htmlFor="Bio">
-                    <textarea wrap='off' className='textArea' placeholder='Please update your bio' name="bio" id="" cols="30" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
+                    <textarea wrap='off' className='textArea' placeholder="Remember, be nice!" name="bio" id="" cols="50" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
                 </label>
 
                 <Button buttonText = "submit" type="submit" onClick={callbackFunction}/>

@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <>
         <Section>
-            <Image src={Logo} alt="Logo" height={90} width={90}/>
+            <Image src={Logo} alt="Logo" height={120} width={120}/>
             <Navbar></Navbar>
             <BackgroundRiseAndShine/>
         </Section>

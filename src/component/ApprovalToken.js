@@ -34,9 +34,9 @@ const ApprovalToken = (props) => {
 
     return (
         <>
-        <form>
-  <label>
-    <input name="claimableAmt" id="claimableAmt" onChange={handleChange} type="text" placeholder="Enter Approval Token Amount"/>
+        <form id='formVal'>
+  <label id='labelVal'>
+    <input id = 'inputVal'  name="claimableAmt" id="claimableAmt" onChange={handleChange} type="text" placeholder="Enter Approval Token Amount"/>
     <span>Enter Approval Token Amount</span>
   </label>
  

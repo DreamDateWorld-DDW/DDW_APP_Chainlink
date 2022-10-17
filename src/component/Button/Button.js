@@ -9,7 +9,7 @@ color: #fff;
 margin: 1.5em 1.5em;
 padding: 0.25em 1.5em;
 font-size: 1.5em;
-height: 2.8em;
+height: 4.0em;
 font-weight: 1050;
 cursor: pointer;
 &:hover{
@@ -24,7 +24,7 @@ cursor: pointer;
 
 const Button = (props) => {
   return (
-    <Btn onClick={props.onClick}>{props.buttonText}</Btn>
+    <Btn hidden = {props.hidden} onClick={props.onClick}>{props.buttonText}</Btn>
   )
 }
 

@@ -42,21 +42,15 @@ const Search = (props) => {
 
   return (
     <>
-        {/* <label htmlFor="">
-              <input placeholder='Enter user name' type="search" name="searchDiscord" id="searchDiscord"  onChange={handlechange} className="form__field" />
-        
-        </label> */}
-    <form>
-        <label>
-    <input name="enteredAmount" id="enteredAmt" type="text" placeholder="Enter user name"/>
-    <span>Enter user name</span>
+    <form id = "formVal">
+      <div className='containerValueForm'>
+        <label id='labelVal'>
+    <input id="inputVal" name="enteredAmount" id="enteredAmt" type="text" placeholder="Enter user name"/>
+    <span id='spanValue'>Enter user name</span>
   </label>
   <input onClick={sendValue} type="submit" value="Search"/>
+  </div>
   </form>
-
-        {/* <div className = "swiperButton">
-        <SwipeButton  text = "Search" type="submit" onClick={sendValue} /> 
-        </div> */}
         
     </>
   )

@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { getResourceType } from './utilities/aptos';
+import styled from 'styled-components'
+import "./UserDetails.css"
+const SectionWrapper = styled.div`
+color: white;
 
-
-
-
+`
+const Image = styled.img`
+height: 100px;
+width: 100px;
+border-radius: 100%;
+`
 const UserDetails = (props) => {
   const [DDWToken, setDDWToken] = useState(0);
   const [APPToken, setAPPToken] = useState(0);
@@ -30,13 +37,15 @@ const UserDetails = (props) => {
     setAPPToken(parseInt(resource.data.coin.value));
   }
   return (
-        <div>
-        <img src={props.imageSrc} alt="Avtar Img" height="50" width="50" style={ {borderRadius :"100%"}} />
+        <div  style={{color : "white"}}>
+          <div id='containerJam'>
+          <Image src={props.imageSrc} alt="Avtar Img" height="50" width="50" style={ {borderRadius :"100%"}} />
+            <h4 className='headerValues' style={{color: "white"}}>Wallet Address :{props.userDetails.wallet} {} </h4>
+            <h4 className='headerValues' >Discord Name : {props.userDetails.name} </h4>
+            <h4 className='headerValues'>DDW Token Balance :{DDWToken}  </h4>
+            <h4 className='headerValues'>SBT Token Balance : {APPToken} </h4>
+          </div>
                 
-                <h3>Wallet Address : {props.userDetails.wallet} </h3>
-                <h3>Discord Name : {props.userDetails.name} </h3>
-                <h3>DDW Token Balance :{DDWToken}  </h3>
-                <h3>APP Token Balance : {APPToken} </h3>
         </div>
 
   )

@@ -7,19 +7,17 @@ body {
   height: 100vh;
 }
 
-h1 {
-  margin: 0 auto 40px;
-  color: #fff;
-  font: 20px Helvetica;
-  text-transform: uppercase;
-  letter-spacing: 3px;
+.containerValueForm {
+  display: flex;
+  justify-content: space-between;  
 }
 
-form label {
-  position: relative;
+#formVal #labelVal {
+  position: absolute;
   display: block;
+  margin-left: 22em;
 }
-form label input {
+#formVal #labelVal #inputVal {
   font: 18px Helvetica, Arial, sans-serif;
   box-sizing: border-box;
   display: block;
@@ -33,41 +31,41 @@ form label input {
   background: #0321586c;
   color: #fff;
 }
-form label input::-moz-placeholder {
+#formVal #labelVal #inputVal::-moz-placeholder {
   -moz-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   color: #999;
   font: 18px Helvetica, Arial, sans-serif;
 }
-form label input:-ms-input-placeholder {
+#formVal #labelVal #inputVal:-ms-#inputVal-placeholder {
   -ms-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   color: #999;
   font: 18px Helvetica, Arial, sans-serif;
 }
-form label input::placeholder {
+#formVal #labelVal #inputVal::placeholder {
   transition: all 0.2s ease-in-out;
   color: #999;
   font: 18px Helvetica, Arial, sans-serif;
 }
-form label input:focus, form label input.populated {
+#formVal #labelVal #inputVal:focus, #formVal #labelVal #inputVal.populated {
   padding-top: 28px;
   padding-bottom: 12px;
 }
-form label input:focus::-moz-placeholder, form label input.populated::-moz-placeholder {
+#formVal #labelVal #inputVal:focus::-moz-placeholder, #formVal #labelVal #inputVal.populated::-moz-placeholder {
   color: transparent;
 }
-form label input:focus:-ms-input-placeholder, form label input.populated:-ms-input-placeholder {
+#formVal #labelVal #inputVal:focus:-ms-#inputVal-placeholder, #formVal #labelVal #inputVal.populated:-ms-#inputVal-placeholder {
   color: transparent;
 }
-form label input:focus::placeholder, form label input.populated::placeholder {
+#formVal #labelVal #inputVal:focus::placeholder, #formVal #labelVal #inputVal.populated::placeholder {
   color: transparent;
 }
-form label input:focus + span, form label input.populated + span {
+#formVal #labelVal #inputVal:focus + #spanValue, #formVal #labelVal #inputVal.populated + #spanValue {
   opacity: 1;
   top: 10px;
 }
-form label span {
+#formVal #labelVal #spanValue {
   color: #35dc9b;
   font: 13px Helvetica, Arial, sans-serif;
   position: absolute;
@@ -76,7 +74,7 @@ form label span {
   opacity: 0;
   transition: all 0.2s ease-in-out;
 }
-form input[type=submit] {
+#formVal #inputVal[type=submit] {
   transition: all 0.2s ease-in-out;
   font: 18px Helvetica, Arial, sans-serif;
   border: none;
@@ -84,6 +82,6 @@ form input[type=submit] {
   color: rgb(10, 9, 9);
   padding: 16px 40px;
 }
-form input[type=submit]:hover {
+#formVal #inputVal[type=submit]:hover {
   background: #109f67;
 }

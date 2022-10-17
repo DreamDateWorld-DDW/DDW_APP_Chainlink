@@ -13,14 +13,31 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 width: 35%;
-margin-top: 20%;
-margin-left: 20%;
+margin-top: 50%;
+margin-left: 30%;
 z-index: 5;
 font-size: 1.1rem;
+flex-direction: column;
 `
 const Heading = styled.h1`
 font-size: 1.75em;
 color: #429ef5;
+justify-content: center;
+margin-top: 2.2em;
+`
+const SectionContainer = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+`
+const SectionContainerBelow = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+margin-top: 22.2em;
+`
+const SectionForContainer = styled.div`
+display: flex;
 `
 
 function Navbar() {
@@ -211,18 +228,27 @@ detectEthereumProvider().then((provider) => {
 });
   return (
       <Navigation >
+                  <Heading>Login</Heading>
+        <SectionContainer>
         <Button
             buttonText = "Login with Aptos"
             onClick={loginWithAptos}>
              </Button>
-
             <Heading>OR</Heading>
+      <Button buttonText = "Login With Metamask"/>
+      </SectionContainer>
+      <Heading>Register</Heading>
 
+      <SectionForContainer>
+       <a href = "#">
+          <Button buttonText = "Join Discord"/>
+           </a>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
         <Button buttonText = {discordName}>{discordName} </Button></a>
         <Button
         buttonText = {metamaskWalletAddress}
         onClick={walletLoginMetamask}> {metamaskWalletAddress} </Button>
+                  <Heading>OR</Heading>
 
         <Button
         buttonText = {aptosWalletAddress}
@@ -237,9 +263,7 @@ detectEthereumProvider().then((provider) => {
           hidden={true}
           onClick={onInitialize} >
         </Button>
-
-       
-
+        </SectionForContainer>
       </Navigation>
 
     // </Section>

@@ -41,18 +41,20 @@ const DDWTokenSend = (props) => {
     }
     return (
         <>
-        <form>
-  <label>
-    <input name="enteredAmount" id="enteredAmt" type="text" placeholder="Enter DDW Token Amount" onChange={handleDDWTokenAmountChange}/>
-    <span>Enter DDW Token Amount</span>
+        <form id='formValueDDW'>
+          <div className='containerValueForm'>
+  <label className='labelVal'>
+    <input className = "inputValueDDW" name="enteredAmount" id="enteredAmt" type="text" placeholder="Enter DDW Token Amount" onChange={handleDDWTokenAmountChange}/>
+    <span id='spanValueDDW'>Enter DDW Token Amount</span>
   </label>
   
-  <label>
-    <input type="email" placeholder="Enter the recipients address" name="recipientAddress" id="recipientAddress" onChange={handleAddressChange}/>
+  <label className='labelVal'>
+    <input className = "inputValueDDW" type="email" placeholder="Enter the recipients address" name="recipientAddress" id="recipientAddress" onChange={handleAddressChange}/>
     <span>Enter the recipients address</span>
   </label>
  
   <input type="submit" value="Send" onSubmit={onTransactionSubmit}/>
+  </div>
 </form>
         </>
     )

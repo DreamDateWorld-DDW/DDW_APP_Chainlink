@@ -78,6 +78,7 @@ const Userdashboard = () => {
 
     return (
         <div className='usersInfo'>
+            
             <TextField >User's Details </TextField>
 
                 <UserDetails userDetails={location.state.userDetails} imageSrc={location.state.imageSrc}/>

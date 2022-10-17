@@ -29,26 +29,26 @@
     width: 100%;
     transition: 0.5s;
   }
-  h3 {
+  #purpleHover {
     background-color: #8758FF;
-    width: 50%;
+    width: 70%;
     position: absolute;
-    bottom: 80px;
-    right: -60%;
-    padding: 10px 0;
+    bottom: 17px;
+    right: 0%;
+    padding: 10px;
     color: #ffffff;
-    text-align: center;
+    text-align: start;
     letter-spacing: 1px;
     font-size: 20px;
     font-weight: 600;
     transform: skew(-5deg);
     transition: 0.3s;
   }
-  h5 {
+  #whiteHover {
     background-color: #ffffff;
     width: 70%;
     padding: 12px 0;
-    text-align: center;
+    text-align: start;
     font-size: 16px;
     letter-spacing: 0.5px;
     position: absolute;
@@ -57,8 +57,11 @@
     transform: skew(-5deg);
     transition: 0.3s;
   }
-  .card:hover h3,
-  .card:hover h5 {
+  .card:hover #purpleHover
+  {
+    right: -75%;
+  }
+  .card:hover #whiteHover {
     right: -2%;
   }
   .card:hover img {
