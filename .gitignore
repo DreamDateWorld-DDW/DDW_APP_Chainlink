@@ -9,7 +9,10 @@
 /coverage
 
 # production
-/build
+build
+
+#aptos
+.aptos
 
 # misc
 .DS_Store
