@@ -149,15 +149,11 @@ const Profile = () => {
                     <input type="text" name='name' readOnly value={userDetails.name} style={{marginBottom:"10px"}} />
                 </label>
                 <br />
-                <label htmlFor="" style={{marginTop:"10px"}} >
                     Interest
                     <Dropdown onInterest={handleInterest} />
-                </label>
                 <br />
-                <label htmlFor="">
                     Gender
                     <Gender gender="male" onGender={handleGender} />
-                </label>
                 <br />
                 <label htmlFor="Bio">
                     <textarea wrap='off' className='textArea' placeholder="Remember, be nice!" name="bio" id="" cols="50" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>

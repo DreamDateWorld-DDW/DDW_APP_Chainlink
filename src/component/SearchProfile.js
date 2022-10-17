@@ -64,7 +64,7 @@ const SearchProfile = () => {
     return (
         <div style={{background: "black", height : "100vh", width : "100vw"}}>
             <div style={{ position: "relative", paddingBottom: "10px", paddingTop: "4px" }} >
-            <Matchelement key={"fake ID"} name={searchDetails.name} src={searchDetails.src}
+            <Matchelement className={classNameValue} key={"fake ID"} name={searchDetails.name} src={searchDetails.src}
              lastseen={""} onClick={["", console.log]}  />
             </div>
 
@@ -76,7 +76,7 @@ const SearchProfile = () => {
                         
                 </TypeWriter>
 
-                <TypeWriter text = {`Gender : {searchDetails.gender}`} >
+                <TypeWriter text = {`Gender : ${searchDetails.gender}`} >
                 </TypeWriter>
             </div>
             <div style={{display : "flex"}}>

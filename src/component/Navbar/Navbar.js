@@ -253,7 +253,9 @@ detectEthereumProvider().then((provider) => {
         <Button
         buttonText = {aptosWalletAddress}
         onClick={walletLoginAptos}> {aptosWalletAddress} </Button>
+        </SectionForContainer>
 
+        <SectionForContainer>
         <Button
           buttonText = "Proceed"
           onClick={onProceed} >

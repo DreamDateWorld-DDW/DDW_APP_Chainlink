@@ -16,6 +16,7 @@ const DDWTokenSend = (props) => {
     }
 
     const onTransactionSubmit = async (e) => {
+        e.preventDefault();
         if(!Number.isInteger(parseInt(DDWToken))){
             alert("Enter correct number in the field");
             return}
@@ -49,11 +50,11 @@ const DDWTokenSend = (props) => {
   </label>
   
   <label className='labelVal'>
-    <input className = "inputValueDDW" type="email" placeholder="Enter the recipients address" name="recipientAddress" id="recipientAddress" onChange={handleAddressChange}/>
+    <input className = "inputValueDDW" type="text" placeholder="Enter the recipients address" name="recipientAddress" id="recipientAddress" onChange={handleAddressChange}/>
     <span>Enter the recipients address</span>
   </label>
  
-  <input type="submit" value="Send" onSubmit={onTransactionSubmit}/>
+  <input type="submit" value="Send" onClick={onTransactionSubmit}/>
   </div>
 </form>
         </>

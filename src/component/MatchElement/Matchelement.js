@@ -12,10 +12,10 @@ const Matchelement = (props) => {
       <div className="card">
         <img
           className={props.className}
-          src="https://i.imgur.com/5ffIsuG.png"
+          src={props.src}
         />
-        <h5 id = "whiteHover" hidden={props.lastseen === "" ? true : false}>Hey There</h5>
-        <h3 id = "purpleHover">How is it</h3>
+        <h5 id = "whiteHover" hidden={props.lastseen === "" ? true : false}>{props.lastseen}</h5>
+        <h3 id = "purpleHover">{props.name}</h3>
         <div className="card">
         </div>
       </div>

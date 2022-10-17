@@ -8,7 +8,8 @@ const ApprovalToken = (props) => {
     const handleChange = (e) => {
         setAmount(e.target.value);
     }
-    const sendChange = async () => {
+    const sendChange = async (e) => {
+        e.preventDefault();
         if(!Number.isInteger(parseInt(amount))){
             alert("Enter correct number in the field");
             return}
@@ -26,7 +27,7 @@ const ApprovalToken = (props) => {
             }
         )
         if(!trans_res.transactionSubmitted) return;
-        document.getElementById("claimableAmt").value = "";
+        document.getElementById("inputVal").value = "";
         setAmount("");
         alert("Tokens Claimed");
 
@@ -36,7 +37,7 @@ const ApprovalToken = (props) => {
         <>
         <form id='formVal'>
   <label id='labelVal'>
-    <input id = 'inputVal'  name="claimableAmt" id="claimableAmt" onChange={handleChange} type="text" placeholder="Enter Approval Token Amount"/>
+    <input id = "inputVal"  className="inputVal" name="claimableAmt" onChange={handleChange} type="text" placeholder="Enter Approval Token Amount"/>
     <span>Enter Approval Token Amount</span>
   </label>
  
