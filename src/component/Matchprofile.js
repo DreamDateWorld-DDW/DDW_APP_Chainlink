@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Matchelement from './MatchElement/Matchelement';
 import "./MatchProfile.css"
-import { DataArray } from './DataArray';
 import TypeWriter from './TypeWriter/TypeWriter';
-import SwipeButton from './SwipeButton/SwipeButton';
 import axios from 'axios';
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
+import Button from './Button/Button'
 
 
 const Matchprofile = () => {
@@ -90,11 +89,11 @@ const Matchprofile = () => {
                      <input type="text" id="VCTime" className="vcInput" onChange={handleTimeEntry}/>
                 </label>
 
-                <button className='buttonMargin' onClick={startVC}> Start Your VC</button>
+                <Button buttonText = "Start Your VC" className='buttonMargin' onClick={startVC}/>
             </div>
 
 
-            <button className='buttonMargin' onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})} style={{ margin: "10px" }}>Back</button>
+            <Button buttonText = "Back" className='buttonMargin' onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})} style={{ margin: "10px" }}/>
         </div>
     )
 }
