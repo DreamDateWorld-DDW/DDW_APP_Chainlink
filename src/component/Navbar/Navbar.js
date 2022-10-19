@@ -13,7 +13,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 width: 35%;
-margin-top: 50%;
+margin-top: 10%;
 margin-left: 30%;
 z-index: 5;
 font-size: 1.1rem;

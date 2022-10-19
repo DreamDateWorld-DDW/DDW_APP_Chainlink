@@ -12,14 +12,18 @@ import { read_from_ipfs } from './utilities/web3storage';
 
 
 const TextField = styled.h1`
-padding: 1.3rem;
-left: 10%;
-margin-right: 7em;
+align-items: center;
+justify-content: center;
+display: flex;
 &:hover {
   cursor: pointer;
   transform: scale(1.1) skew(-8deg);
   transition: transform 120ms;
 }
+`
+const TextFieldUserDetails = styled.h1`
+    margin-right: 66em;
+    font-family: 'Oswald', sans-serif;
 `
 const Userdashboard = () => {
     const location = useLocation();
@@ -79,7 +83,7 @@ const Userdashboard = () => {
     return (
         <div className='usersInfo'>
             
-            <TextField >User's Details </TextField>
+            <TextFieldUserDetails>User's Details </TextFieldUserDetails>
 
                 <UserDetails userDetails={location.state.userDetails} imageSrc={location.state.imageSrc}/>
 

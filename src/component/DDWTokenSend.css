@@ -1,83 +1,43 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+.container{
   display: flex;
-  flex-direction: column;
-  flex-grow: 0;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
 }
-
-
-#formValueDDW .labelVal {
-  /* position: absolute; */
-  display: block;
-  margin-left: 22em;
-}
-#formValueDDW .labelVal .inputValueDDW {
-  font: 18px Helvetica, Arial, sans-serif;
-  box-sizing: border-box;
-  display: block;
-  border: none;
-  padding: 20px;
-  width: 300px;
-  margin-bottom: 20px;
-  font-size: 18px;
-  outline: none;
-  transition: all 0.2s ease-in-out;
-  background: #0321586c;
-  color: #fff;
-}
-#formValueDDW .labelVal .inputValueDDW::-moz-placeholder {
-  -moz-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-  color: #999;
-  font: 18px Helvetica, Arial, sans-serif;
-}
-#formValueDDW .labelVal .inputValueDDW:-ms-.inputValueDDW-placeholder {
-  -ms-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-  color: #999;
-  font: 18px Helvetica, Arial, sans-serif;
-}
-#formValueDDW .labelVal .inputValueDDW::placeholder {
-  transition: all 0.2s ease-in-out;
-  color: #999;
-  font: 18px Helvetica, Arial, sans-serif;
-}
-#formValueDDW .labelVal .inputValueDDW:focus, #formValueDDW .labelVal .inputValueDDW.populated {
-  padding-top: 28px;
-  padding-bottom: 12px;
-}
-#formValueDDW .labelVal .inputValueDDW:focus::-moz-placeholder, #formValueDDW .labelVal .inputValueDDW.populated::-moz-placeholder {
-  color: transparent;
-}
-#formValueDDW .labelVal .inputValueDDW:focus:-ms-.inputValueDDW-placeholder, #formValueDDW .labelVal .inputValueDDW.populated:-ms-.inputValueDDW-placeholder {
-  color: transparent;
-}
-#formValueDDW .labelVal .inputValueDDW:focus::placeholder, #formValueDDW .labelVal .inputValueDDW.populated::placeholder {
-  color: transparent;
-}
-#formValueDDW .labelVal .inputValueDDW:focus + #spanValueDDW, #formValueDDW .labelVal .inputValueDDW.populated + #spanValueDDW {
-  opacity: 1;
-  top: 10px;
-}
-#formValueDDW .labelVal #spanValueDDW {
-  color: #35dc9b;
-  font: 13px Helvetica, Arial, sans-serif;
-  position: absolute;
-  top: 0px;
-  left: 20px;
-  opacity: 0;
-  transition: all 0.2s ease-in-out;
-}
-#formValueDDW .inputValueDDW[type=submit] {
-  transition: all 0.2s ease-in-out;
-  font: 18px Helvetica, Arial, sans-serif;
-  border: none;
-  background: #1aaf75;
-  color: rgb(10, 9, 9);
-  padding: 16px 40px;
-}
-#formValueDDW .inputValueDDW[type=submit]:hover {
-  background: #109f67;
-}
+form {
+  width: 500px;
+  }
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 100%;
+    background-color: #888a8c;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+  }
+  input[type=submit]:hover {
+    background: #5797d8;
+  }  
+  input[type=submit]:hover {
+    background-color: #6aaef3;
+  }
+  
+  div {
+    border-radius: 5px;
+    padding-left: 20px;
+    /* padding: 20px; */
+  }

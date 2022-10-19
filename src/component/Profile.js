@@ -135,26 +135,23 @@ const Profile = () => {
 
     return (
 
-        <div className='profile' >
+        <div className='profile' style={{marginTop : "50px"}} >
 
             <form onSubmit={handleInputs}>
-
+                
                 <label htmlFor="" className='profileImg' >
                     <img  alt="/" height="100" width="100" />
                     <input type="file" onChange={previewImage}/>
                 </label>
-
+                <div style={{marginTop: "20px"}}>
                 <label htmlFor="" className='p-2'>
-                    <p> Name : </p>
-                    <input type="text" name='name' readOnly value={userDetails.name} style={{marginBottom:"10px"}} />
+                    <p> Name :           <input type="text" name='name' readOnly value={userDetails.name} style={{marginBottom:"10px", width: "250px"}} /> </p>
                 </label>
-                <br />
-                    Interest
+                </div>
+                   <p> Interest </p>
                     <Dropdown onInterest={handleInterest} />
-                <br />
                     Gender
                     <Gender gender="male" onGender={handleGender} />
-                <br />
                 <label htmlFor="Bio">
                     <textarea wrap='off' className='textArea' placeholder="Remember, be nice!" name="bio" id="" cols="50" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
                 </label>
@@ -162,6 +159,24 @@ const Profile = () => {
                 <Button buttonText = "submit" type="submit" onClick={callbackFunction}/>
 
             </form>
+
+  {/* <form action="/action_page.php">
+  <label htmlFor="" className='profileImg' >
+    <img  alt="/" height="100" width="100" />
+    <input type="file" onChange={previewImage}/>
+    </label>
+    <label for="fname">Name</label>
+    <input type="text" name='name' readOnly value={userDetails.name} style={{marginLeft : "20px", width: "200px"}}/>
+    <label for="fname">Interest</label>
+    <Dropdown onInterest={handleInterest} />
+    <label for="fname">Gender</label>
+    <Gender gender="male" onGender={handleGender} />
+    <label htmlFor="Bio">
+    <textarea wrap='off' className='textArea' placeholder="Remember, be nice!" name="bio" id="" cols="50" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
+    </label>
+    <Button buttonText = "submit" type="submit" onClick={callbackFunction}/>
+  </form> */}
+
         </div>
     )
 }

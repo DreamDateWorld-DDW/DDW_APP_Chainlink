@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getResourceType } from './utilities/aptos';
 import { read_from_ipfs } from './utilities/web3storage';
-import "./Search.css"
-import SwipeButton from './SwipeButton/SwipeButton';
 
 const Search = (props) => {
   const navigate = useNavigate();
@@ -42,17 +40,15 @@ const Search = (props) => {
     }
 
   return (
-    <>
-    <form id = "formVal">
-      <div className='containerValueForm'>
-        <label id='labelVal'>
-    <input id="inputVal" name="enteredAmount" type="text" placeholder="Enter user name" onChange={handlechange}/>
-    <span id='spanValue'>Enter user name</span>
-  </label>
-  <input onClick={sendValue} type="submit" value="Search"/>
-  </div>
+    <>        
+        <div className='container'>
+  <form action="/action_page.php">
+    <label for="fname">First Name</label>
+    <input type="text" name="enteredAmount" type="text" placeholder="Enter user name" onChange={handlechange}/>
+    <input onClick={sendValue} type="submit" value="Search"/>
   </form>
-        
+</div>
+
     </>
   )
 }

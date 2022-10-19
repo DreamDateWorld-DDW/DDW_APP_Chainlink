@@ -35,14 +35,22 @@ const ApprovalToken = (props) => {
 
     return (
         <>
-        <form id='formVal'>
+        {/* <form id='formVal'>
   <label id='labelVal'>
     <input id = "inputVal"  className="inputVal" name="claimableAmt" onChange={handleChange} type="text" placeholder="Enter Approval Token Amount"/>
     <span>Enter Approval Token Amount</span>
   </label>
  
   <input onClick={sendChange} type="submit" value="Claim"/>
-</form>
+</form> */}
+
+<div className='container'>
+  <form action="/action_page.php">
+    <label for="fname">First Name</label>
+    <input type="text" name="claimableAmt" onChange={handleChange} type="text" placeholder="Enter Approval Token Amount"/>  
+    <input onClick={sendChange} type="submit" value="Claim"/>
+  </form>
+</div>
 
 </>
     )
