@@ -29,6 +29,7 @@ padding-right: 1.1em;
   margin: inherit;
   font-size: 0.8em;
   transition: ease-in-out;
+  width: 10.2em;
 }
 `
 

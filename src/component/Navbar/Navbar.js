@@ -26,6 +26,14 @@ font-size: 1.75em;
 color: #429ef5;
 justify-content: center;
 margin-top: 2.2em;
+@media (max-height: 800px) {
+  padding: inherit;
+  margin: inherit;
+  font-size: 1.2em;
+  transition: ease-in-out;
+  margin-top: 2.2em;
+}
+
 `
 const SectionContainer = styled.div`
 display: flex;
@@ -236,7 +244,7 @@ detectEthereumProvider().then((provider) => {
             buttonText = "Login with Aptos"
             onClick={loginWithAptos}>
              </Button>
-            <Heading>OR</Heading>
+            <Heading style={{marginRight : "2.2em"}}>OR</Heading>
       <Button buttonText = "Login With Metamask"/>
       </SectionContainer>
       <Heading>Register</Heading>

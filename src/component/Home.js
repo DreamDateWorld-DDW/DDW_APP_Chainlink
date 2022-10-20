@@ -8,13 +8,14 @@ import styled from 'styled-components'
 const Section = styled.section`
 width: 100vw;
 background: #000;
+max-height: 100vh;
 `
 const Image = styledComponents.img`
 position: fixed;
 top: 5px;
 left: 5px;
 text-align: left;
-margin: 5px
+margin: 5px;
 `
 const Home = () => {
   return (

@@ -4,3 +4,7 @@
 body{
     max-height: 100vh;
 }
+html{
+    max-height: 100vh;
+    min-height: 100vh;
+}
