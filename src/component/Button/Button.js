@@ -12,6 +12,10 @@ font-size: 1.5em;
 height: 4.0em;
 font-weight: 1050;
 cursor: pointer;
+transition: ease-in-out;
+justify-content: flex-start;
+text-align: left;
+padding-right: 1.1em;
 &:hover{
   background: black;
   color: white;
@@ -20,11 +24,19 @@ cursor: pointer;
   text-shadow: 0 0 5px #15f4ee, 0 0 5px #15f4ee;
   transform: translate( 10%) scale(1);
 }
+@media (max-height: 800px) {
+  padding: inherit;
+  margin: inherit;
+  font-size: 0.8em;
+  transition: ease-in-out;
+}
 `
 
 const Button = (props) => {
   return (
+    <div style={{margin: "10px"}}>
     <Btn hidden = {props.hidden} onClick={props.onClick}>{props.buttonText}</Btn>
+    </div>
   )
 }
 

@@ -18,6 +18,8 @@ margin-left: 30%;
 z-index: 5;
 font-size: 1.1rem;
 flex-direction: column;
+max-height: 100vh;
+margin-bottom: 20px;
 `
 const Heading = styled.h1`
 font-size: 1.75em;
