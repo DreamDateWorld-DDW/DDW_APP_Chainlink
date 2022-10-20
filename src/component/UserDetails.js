@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getResourceType } from './utilities/aptos';
 import styled from 'styled-components'
 import "./UserDetails.css"
+import { shorten_address } from './utilities/utils';
 const SectionWrapper = styled.div`
 color: white;
 
@@ -40,7 +41,7 @@ const UserDetails = (props) => {
         <div  style={{color : "white"}}>
           <div id='containerJam'>
           <Image src={props.imageSrc} alt="Avtar Img" height="50" width="50" style={ {borderRadius :"100%"}} />
-            <h4 className='headerValues' style={{color: "white"}}>Wallet Address :{props.userDetails.wallet} {} </h4>
+            <h4 className='headerValues' style={{color: "white"}}>Wallet Address :{shorten_address(props.userDetails.wallet)} {} </h4>
             <h4 className='headerValues' >Discord Name : {props.userDetails.name} </h4>
             <h4 className='headerValues'>DDW Token Balance :{DDWToken}  </h4>
             <h4 className='headerValues'>SBT Token Balance : {APPToken} </h4>
