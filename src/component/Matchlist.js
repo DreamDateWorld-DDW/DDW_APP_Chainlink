@@ -13,7 +13,7 @@ const Matchlist = (props) => {
 
     return (
         <div>
-            <div className='match'>
+            <div className='match' style={{overflowY: "scroll"}}>
             <h1>Matches</h1>
                 {console.log(props.matches)}
                 {props.matches.map(c => <Matchelement key={c.id} name={c.name} src={c.src} lastseen={c.lastseen} onClick={[c, handleOnClick]} />)}

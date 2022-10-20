@@ -135,7 +135,7 @@ const Profile = () => {
 
     return (
 
-        <div className='profile' style={{marginTop : "50px", maxHeight : "100vh", objectFit: "contain"}} >
+        <div className='profile' style={{marginTop : "50px", maxHeight : "100vh", objectFit: "contain", overflowY: "scroll"}} >
 
             <form onSubmit={handleInputs}>
                 

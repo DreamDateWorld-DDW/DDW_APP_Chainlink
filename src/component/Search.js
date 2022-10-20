@@ -41,7 +41,7 @@ const Search = (props) => {
 
   return (
     <>        
-        <div className='container'>
+        <div className='container' style={{overflowY: "scroll"}}>
   <form action="/action_page.php">
     <label for="fname">First Name</label>
     <input type="text" name="enteredAmount" type="text" placeholder="Enter user name" onChange={handlechange}/>

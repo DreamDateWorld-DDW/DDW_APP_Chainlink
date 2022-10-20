@@ -62,7 +62,7 @@ const SearchProfile = () => {
 
     }
     return (
-        <div style={{background: "black", height : "100vh", width : "100vw"}}>
+        <div style={{background: "black", height : "100vh", width : "100vw" ,  overflowY: "scroll"}}>
             <div style={{ position: "relative", paddingBottom: "10px", paddingTop: "4px" }} >
             <Matchelement className={classNameValue} key={"fake ID"} name={searchDetails.name} src={searchDetails.src}
              lastseen={""} onClick={["", console.log]}  />

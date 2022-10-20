@@ -53,7 +53,7 @@ const Matchprofile = () => {
           alert("Private VC Created, check the Discord Server ;)");
     }
     return (
-        <div className='containerMarginTop1'>
+        <div className='containerMarginTop1' style={{overflowY: "scroll"}}>
             <div className='containerMarginTop'>
                 <Matchelement key={matchDetails.id} name={matchDetails.name} src={matchDetails.src} lastseen={matchDetails.lastseen} onClick={["", console.log]} />
             </div>

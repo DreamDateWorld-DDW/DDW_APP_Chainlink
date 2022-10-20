@@ -42,7 +42,7 @@ const DDWTokenSend = (props) => {
     }
     return (
         <>
-<div className='container'>
+<div className='container' style={{overflowY: "scroll"}}>
   <form action="/action_page.php">
     <label for="fname">First Name</label>
     <input type="text" id="enteredAmt" name="enteredAmount" placeholder="Enter DDW Token Amount" onChange={handleDDWTokenAmountChange}/>
