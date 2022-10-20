@@ -83,8 +83,9 @@ const SearchProfile = () => {
                 <SwipeButton onClick = {() => {handleClassNameValueLike(); onLike();}} text = "Like"/> 
                 <SwipeButton onClick = {() => {handleClassNameValueSuperLike(); onSuperLike();}} text = "Super Like"/>
             </div>
-            
+            <div style={{marginBottom : "50px"}}>
             <SwipeButton text = "Back" onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})}>Back</SwipeButton>
+            </div>
         </div>
     )
 }
