@@ -251,7 +251,7 @@ detectEthereumProvider().then((provider) => {
       <Heading>Register</Heading>
 
       <SectionForContainer>
-       <a href = "#">
+       <a href = {process.env.REACT_APP_DISCORD_SERVER_LINK}>
           <Button buttonText = "Join Discord"/>
            </a>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
