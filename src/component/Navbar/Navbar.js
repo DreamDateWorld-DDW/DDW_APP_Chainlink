@@ -35,6 +35,21 @@ margin-top: 2.2em;
 }
 
 `
+const Heading2 = styled.h1`
+font-size: 1.75em;
+color: #429ef5;
+justify-content: center;
+margin-top: 2.2em;
+@media (max-height: 800px) {
+  padding: inherit;
+  display: flex;
+  margin: inherit;
+  font-size: 1.2em;
+  transition: ease-in-out;
+  margin-top: 2.2em;
+  align-items: center;
+  justify-content: center;
+}`
 const SectionContainer = styled.div`
 display: flex;
 flex-direction: row;
@@ -238,7 +253,9 @@ detectEthereumProvider().then((provider) => {
 });
   return (
       <Navigation >
-                  <Heading>Login</Heading>
+        <div style={{display: "flex", textAlign: "center", justifyContent : "center"}}>
+                  <Heading2>Login</Heading2>
+                  </div>
         <SectionContainer>
         <Button
             buttonText = "Login with Aptos"
@@ -247,7 +264,9 @@ detectEthereumProvider().then((provider) => {
             <Heading>OR</Heading>
       <Button buttonText = "Login With Metamask"/>
       </SectionContainer>
-      <Heading>Register</Heading>
+      <div style={{display: "flex", textAlign: "center", justifyContent : "center"}}>
+      <Heading2>Register</Heading2>
+      </div>
 
       <SectionForContainer>
        <a href = "#">

@@ -12,7 +12,7 @@ const Matchlist = (props) => {
     }
 
     return (
-        <div>
+        <div style= {{overflowY: "scroll"}}>
             <div className='match' style={{overflowY: "scroll"}}>
             <h1>Matches</h1>
                 {console.log(props.matches)}
