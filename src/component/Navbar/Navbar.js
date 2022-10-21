@@ -7,6 +7,7 @@ import { checkAndGetAccountAddress, getResourceType, signAndSubmitTransaction } 
 import { read_from_ipfs } from '../utilities/web3storage';
 import styled from 'styled-components';
 import Button from '../Button/Button';
+import { shorten_address } from '../utilities/utils';
 const Navigation = styled.nav`
 top: 50%;
 display: flex;
@@ -269,19 +270,19 @@ detectEthereumProvider().then((provider) => {
       </div>
 
       <SectionForContainer>
-       <a href = "#">
+       <a href = {process.env.REACT_APP_DISCORD_SERVER_LINK}>
           <Button buttonText = "Join Discord"/>
            </a>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
         <Button buttonText = {discordName}>{discordName} </Button></a>
         <Button
-        buttonText = {metamaskWalletAddress}
-        onClick={walletLoginMetamask}> {metamaskWalletAddress} </Button>
+        buttonText = {shorten_address(metamaskWalletAddress)}
+        onClick={walletLoginMetamask}> {shorten_address(metamaskWalletAddress)} </Button>
                   <Heading>OR</Heading>
 
         <Button
-        buttonText = {aptosWalletAddress}
-        onClick={walletLoginAptos}> {aptosWalletAddress} </Button>
+        buttonText = {shorten_address(aptosWalletAddress)}
+        onClick={walletLoginAptos}> {shorten_address(aptosWalletAddress)} </Button>
         </SectionForContainer>
 
         <SectionForContainer>
