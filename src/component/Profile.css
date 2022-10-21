@@ -1,17 +1,18 @@
-.profile{
-    position: absolute;
-    left: 580px;
-    margin: 20px;
+.profile {
+    background: #fff;
+    border-radius: 20px;
+    height: 50rem;
+    width: 26rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
 }
-
-.profile form{
-    position: absolute;
-    padding: 2px;
-}
-.profile form label{
-    justify-items: start;
-}
-
-.profileImg{
-    padding-top: 20px;
-}
+  textarea {
+      resize: none;
+      outline: none;
+      background: #272727;
+      overflow: auto;
+      color: #fff;
+      border-radius: 2px;
+  }

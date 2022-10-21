@@ -35,22 +35,21 @@
 .tokensend {
   padding: 2px;
   text-decoration: wavy;
-  border: 2px solid gray;
+  /* border: 2px solid gray; */
   margin-bottom: 60px;
   width: 400px;
     height: auto;
   position: relative;
-    left: 500px;
 ;
 }
 .approvalToken{
     padding: 10px;
     text-decoration: wavy;
-  border: 2px solid gray;
+  /* border: 2px solid gray; */
   width: 400px;
+  color: aliceblue;
   height: auto;
   position: relative;
-    left: 500px;
 }
 
 .match{
@@ -58,4 +57,9 @@
     right: 10px;
     margin-top: 20px;
     top: 150px;
+}
+.usersInfo {
+  background: #000;
+  height: 100vh;
+  overflow-y: scroll;
 }

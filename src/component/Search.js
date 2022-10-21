@@ -12,6 +12,7 @@ const Search = (props) => {
     }
 
     const sendValue =async(e) => {
+      e.preventDefault();
       var mongo_res = await axios.get(process.env.REACT_APP_MONGODB_API_ENDPOINT + `discordName/${searchValue}`);
       if(!mongo_res.data){
         alert("This Discord Account is not Registered")
@@ -39,16 +40,16 @@ const Search = (props) => {
     }
 
   return (
-    <div>
-        <label htmlFor="">
-        Enter a userName(#0000) : 
-              <input type="search" name="searchDiscord" id="searchDiscord"  onChange={handlechange}/>
-        
-        </label>
+    <>        
+        <div className='container' style={{overflowY: "scroll"}}>
+  <form action="/action_page.php">
+    <label for="fname">First Name</label>
+    <input type="text" name="enteredAmount" type="text" placeholder="Enter user name" onChange={handlechange}/>
+    <input onClick={sendValue} type="submit" value="Search"/>
+  </form>
+</div>
 
-
-        <button type="submit" onClick={sendValue} > Search</button>
-    </div>
+    </>
   )
 }
 

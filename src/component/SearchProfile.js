@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Matchelement from './Matchelement';
+import Button from './Button/Button';
+import Matchelement from './MatchElement/Matchelement';
+import SwipeButton from './SwipeButton/SwipeButton';
+import TypeWriter from './TypeWriter/TypeWriter';
+import "./SearchProfile.css"
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
 
 
@@ -9,6 +13,14 @@ const SearchProfile = () => {
     const location = useLocation();
     const [searchDetails, setSearchDetails] = useState(location.state.searchData);
     const [userDetails, setuserDetails] = useState(location.state.userDetails);
+    const [classNameValue, setClassNameValue] = useState("")
+
+    const handleClassNameValueLike = () =>{
+        setClassNameValue("rotateProfileElement")
+    }
+    const handleClassNameValueSuperLike = () => {
+        setClassNameValue("rotateProfileElementEaseInOut")
+    }
 
     const onLike = async() => {
         var isItRightWallet = await isWalletCorrect(userDetails.wallet);
@@ -50,43 +62,30 @@ const SearchProfile = () => {
 
     }
     return (
-        <div>
-            <div style={{ position: "relative", left: "520px", paddingBottom: "10px", paddingTop: "4px", }}>
-                <Matchelement key={"fake ID"} name={searchDetails.name} src={searchDetails.src}
+        <div style={{background: "black", height : "100vh", width : "100vw" ,  overflowY: "scroll"}}>
+            <div style={{ position: "relative", paddingBottom: "10px", paddingTop: "4px" }} >
+            <Matchelement className={classNameValue} key={"fake ID"} name={searchDetails.name} src={searchDetails.src}
              lastseen={""} onClick={["", console.log]}  />
             </div>
 
             <div className='UserDetails'>
-                <div>
-                    <label htmlFor="">
-                        Interest = {searchDetails.interest.join(", ")}
-                    </label>
-                </div>
+                <TypeWriter text = {`Interest : ${searchDetails.interest.join(", ")}`}>
+                </TypeWriter>
 
-                <div>
+                <TypeWriter text = {`Bio : ${searchDetails.bio}`}>
+                        
+                </TypeWriter>
 
-
-                    <label htmlFor="">
-                        Bio = {searchDetails.bio}
-                    </label>
-                </div>
-
-                <div>
-
-
-                    <label htmlFor="">
-                        Gender = {searchDetails.gender}
-                    </label>
-                </div>
+                <TypeWriter text = {`Gender : ${searchDetails.gender}`} >
+                </TypeWriter>
             </div>
-            <div style={{padding:"3px", marginLeft:"10px"}}>
-                <button onClick={onLike} style={{  margin: "10px" }}> Like</button>
-                <button onClick={onSuperLike}> Super Like</button>
+            <div style={{display : "flex"}}>
+                <SwipeButton onClick = {() => {handleClassNameValueLike(); onLike();}} text = "Like"/> 
+                <SwipeButton onClick = {() => {handleClassNameValueSuperLike(); onSuperLike();}} text = "Super Like"/>
             </div>
-            
-
-
-            <button onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})}>Back</button>
+            <div style={{marginBottom : "50px"}}>
+            <SwipeButton text = "Back" onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})}>Back</SwipeButton>
+            </div>
         </div>
     )
 }

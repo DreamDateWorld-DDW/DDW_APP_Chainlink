@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Matchelement from './Matchelement';
+import Matchelement from './MatchElement/Matchelement';
+import "./MatchProfile.css"
+import TypeWriter from './TypeWriter/TypeWriter';
 import axios from 'axios';
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
+import Button from './Button/Button'
 
 
 const Matchprofile = () => {
@@ -50,15 +53,15 @@ const Matchprofile = () => {
           alert("Private VC Created, check the Discord Server ;)");
     }
     return (
-        <div>
-            <div style={{ position: "relative", left: "520px", paddingBottom: "10px", paddingTop: "4px", }}>
+        <div className='containerMarginTop1' style={{overflowY: "scroll"}}>
+            <div className='containerMarginTop'>
                 <Matchelement key={matchDetails.id} name={matchDetails.name} src={matchDetails.src} lastseen={matchDetails.lastseen} onClick={["", console.log]} />
             </div>
             <div>
                 <div className='UserDetails'>
                     <div>
                         <label htmlFor="">
-                            Interest = {matchDetails.interest.join(', ')}
+                        <TypeWriter text = {`Interest = ${matchDetails.interest.join(', ')}`}/>
                         </label>
                     </div>
 
@@ -66,7 +69,8 @@ const Matchprofile = () => {
 
 
                         <label htmlFor="">
-                            Bio = {matchDetails.bio}
+                        <TypeWriter text = {`Bio = ${matchDetails.bio}`}/>
+                            
                         </label>
                     </div>
 
@@ -74,21 +78,22 @@ const Matchprofile = () => {
 
 
                         <label htmlFor="">
-                            Gender = {matchDetails.gender}
+                        <TypeWriter text = {`Gender = ${matchDetails.gender}`}/>
                         </label>
                     </div>
                 </div>
 
-                <label htmlFor="Time Entry">
-                    Enter Duration Of Your VC in minutes:
-                    <input type="text" id="VCTime" onChange={handleTimeEntry}/>
+                <label htmlFor="Time Entry" style={{fontFamily:"Oswald, sans-serif"}}>
+                     <TypeWriter text = "Enter Duration Of Your VC in minutes:"/>
+                     
+                     <input style={{width:"200px"}} type="text" id="VCTime" className="vcInput" onChange={handleTimeEntry}/>
                 </label>
 
-                <button onClick={startVC}> Start Your VC</button>
+                <Button buttonText = "Start Your VC" className='buttonMargin' onClick={startVC}/>
             </div>
 
 
-            <button onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})} style={{ margin: "10px" }}>Back</button>
+            <Button buttonText = "Back" className='buttonMargin' onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})} style={{ margin: "10px" }}/>
         </div>
     )
 }

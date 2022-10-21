@@ -1,11 +1,55 @@
 import React, { useState, useEffect } from 'react'
-import "./Navbar.css"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from './utilities/contract';
-import { checkAndGetAccountAddress, getResourceType, signAndSubmitTransaction } from './utilities/aptos';
-import { read_from_ipfs } from './utilities/web3storage';
+import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from '../utilities/contract';
+import { checkAndGetAccountAddress, getResourceType, signAndSubmitTransaction } from '../utilities/aptos';
+import { read_from_ipfs } from '../utilities/web3storage';
+import styled from 'styled-components';
+import Button from '../Button/Button';
+import { shorten_address } from '../utilities/utils';
+const Navigation = styled.nav`
+top: 50%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 35%;
+margin-top: 10%;
+margin-left: 30%;
+z-index: 5;
+font-size: 1.1rem;
+flex-direction: column;
+max-height: 100vh;
+margin-bottom: 20px;
+`
+const Heading = styled.h1`
+font-size: 1.75em;
+color: #429ef5;
+justify-content: center;
+margin-top: 2.2em;
+@media (max-height: 800px) {
+  padding: inherit;
+  margin: inherit;
+  font-size: 1.2em;
+  transition: ease-in-out;
+  margin-top: 2.2em;
+}
+
+`
+const SectionContainer = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+`
+const SectionContainerBelow = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+margin-top: 22.2em;
+`
+const SectionForContainer = styled.div`
+display: flex;
+`
 
 function Navbar() {
  
@@ -26,7 +70,6 @@ function Navbar() {
   function handleDiscordData() {
     const urlSearchParams = new URLSearchParams(window.location.search);
         const params = Object.fromEntries(urlSearchParams.entries());
-        // console.log(params);
         if (!params.code) return;
         getInfo(params.code);
   }
@@ -195,43 +238,48 @@ detectEthereumProvider().then((provider) => {
   provider.on("chainChanged", chainChangedHandler);
 });
   return (
-    <div>
-      <div className='Navbar'>
-        <div>
-        <button className='register'
+      <Navigation >
+                  <Heading>Login</Heading>
+        <SectionContainer>
+        <Button
+            buttonText = "Login with Aptos"
             onClick={loginWithAptos}>
-            Login with Aptos </button>
-        </div>
+             </Button>
+            <Heading style={{marginRight : "2.2em"}}>OR</Heading>
+      <Button buttonText = "Login With Metamask"/>
+      </SectionContainer>
+      <Heading>Register</Heading>
 
-          <div>
-            <h1>OR</h1>
-          </div>
-
-        <div>
+      <SectionForContainer>
+       <a href = "#">
+          <Button buttonText = "Join Discord"/>
+           </a>
         <a href={process.env.REACT_APP_OAUTH_LINK}>
-        <button className='wallet'>{discordName} </button></a>
-        <div><button className='register' id='metamask'
-        onClick={walletLoginMetamask}> {metamaskWalletAddress} </button>
-        /
-        <button className='register' id='aptos'
-        onClick={walletLoginAptos}> {aptosWalletAddress} </button>
-        </div>
-        </div>
+        <Button buttonText = {discordName}>{discordName} </Button></a>
+        <Button
+        buttonText = {shorten_address(metamaskWalletAddress)}
+        onClick={walletLoginMetamask}> {shorten_address(metamaskWalletAddress)} </Button>
+                  <Heading>OR</Heading>
 
-        <button
+        <Button
+        buttonText = {shorten_address(aptosWalletAddress)}
+        onClick={walletLoginAptos}> {shorten_address(aptosWalletAddress)} </Button>
+        </SectionForContainer>
+
+        <SectionForContainer>
+        <Button
+          buttonText = "Proceed"
           onClick={onProceed} >
-          Proceed
-        </button>
-        <button hidden={true}
+        </Button>
+        <Button
+          buttonText = "Initialize"
+          hidden={true}
           onClick={onInitialize} >
-          Initialize
-        </button>
+        </Button>
+        </SectionForContainer>
+      </Navigation>
 
-       
-
-      </div>
-
-    </div>
+    // </Section>
   )
 }
 

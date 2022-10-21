@@ -5,12 +5,26 @@ import Search from './Search';
 import DDWTokenSend from './DDWTokenSend';
 import ApprovalToken from './ApprovalToken';
 import UserDetails from './UserDetails';
+import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import { getResourceType } from './utilities/aptos';
 import { read_from_ipfs } from './utilities/web3storage';
 
 
-
+const TextField = styled.h1`
+align-items: center;
+justify-content: center;
+display: flex;
+&:hover {
+  cursor: pointer;
+  transform: scale(1.1) skew(-8deg);
+  transition: transform 120ms;
+}
+`
+const TextFieldUserDetails = styled.h1`
+    margin-right: 66em;
+    font-family: 'Oswald', sans-serif;
+`
 const Userdashboard = () => {
     const location = useLocation();
     var wallet = location.state.userDetails.wallet;
@@ -68,31 +82,21 @@ const Userdashboard = () => {
 
     return (
         <div className='usersInfo'>
-            <h1>User's Details </h1>
-
-            <div className="userdetails">
+            
+            <TextFieldUserDetails>User's Details </TextFieldUserDetails>
 
                 <UserDetails userDetails={location.state.userDetails} imageSrc={location.state.imageSrc}/>
-            </div>
 
-            <div className="search">
                 <Search userDetails={location.state.userDetails} imageSrc={location.state.imageSrc}/>
-            </div>
 
-            <h1>Send DDW Tokens </h1>
-            <div className="tokensend">
+            <TextField>Send DDW Tokens </TextField>
                 <DDWTokenSend userWallet={location.state.userDetails.wallet}/>
-            </div>
 
-            <h1>Claim DDW Tokens </h1>
-            <div className="approvalToken">
+            <TextField>Claim DDW Tokens </TextField>
                 <ApprovalToken userWallet={location.state.userDetails.wallet}/>
-            </div>
 
-            <div height="110" width="200" className='match'>
 
-                <Matchlist matches={Object.values(matches)} userDetails={location.state.userDetails} imageSrc={location.state.imageSrc} />
-            </div>
+                <Matchlist matches={matches} userDetails={location.state.userDetails} imageSrc={location.state.imageSrc} />
 
         </div>
     )

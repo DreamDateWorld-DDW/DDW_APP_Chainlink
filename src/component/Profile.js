@@ -5,6 +5,7 @@ import Dropdown from './Dropdowm'
 import Gender from './Gender'
 import "./Profile.css"
 import { useLocation, useNavigate } from 'react-router-dom';
+import Button from './Button/Button'
 import { write_to_ipfs } from './utilities/web3storage'
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos'
 
@@ -134,38 +135,48 @@ const Profile = () => {
 
     return (
 
-        <div className='profile' >
+        <div className='profile' style={{marginTop : "50px", maxHeight : "100vh", objectFit: "contain", overflowY: "scroll"}} >
 
             <form onSubmit={handleInputs}>
-
+                
                 <label htmlFor="" className='profileImg' >
                     <img  alt="/" height="100" width="100" />
                     <input type="file" onChange={previewImage}/>
                 </label>
-
+                <div style={{marginTop: "20px"}}>
                 <label htmlFor="" className='p-2'>
-                    <p> Name : </p>
-                    <input type="text" name='name' readOnly value={userDetails.name} style={{marginBottom:"10px"}} />
+                    <p> Name :           <input type="text" name='name' readOnly value={userDetails.name} style={{marginBottom:"10px", width: "250px"}} /> </p>
                 </label>
-                <br />
-                <label htmlFor="" style={{marginTop:"10px"}} >
-                    Interest :
+                </div>
+                   <p> Interest </p>
                     <Dropdown onInterest={handleInterest} />
-                </label>
-                <br />
-                <label htmlFor="">
-                    Gender :
+                    Gender
                     <Gender gender="male" onGender={handleGender} />
-                </label>
-                <br />
                 <label htmlFor="Bio">
-                    Bio :
-                    <textarea name="bio" id="" cols="30" rows="10" onChange={handleInputs} value={userDetails.bio} >Please update your bio  </textarea>
+                    <textarea wrap='off' className='textArea' placeholder="Remember, be nice!" name="bio" id="" cols="50" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
                 </label>
 
-                <button type="submit" onClick={callbackFunction}> Register</button>
+                <Button buttonText = "submit" type="submit" onClick={callbackFunction}/>
 
             </form>
+
+  {/* <form action="/action_page.php">
+  <label htmlFor="" className='profileImg' >
+    <img  alt="/" height="100" width="100" />
+    <input type="file" onChange={previewImage}/>
+    </label>
+    <label for="fname">Name</label>
+    <input type="text" name='name' readOnly value={userDetails.name} style={{marginLeft : "20px", width: "200px"}}/>
+    <label for="fname">Interest</label>
+    <Dropdown onInterest={handleInterest} />
+    <label for="fname">Gender</label>
+    <Gender gender="male" onGender={handleGender} />
+    <label htmlFor="Bio">
+    <textarea wrap='off' className='textArea' placeholder="Remember, be nice!" name="bio" id="" cols="50" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
+    </label>
+    <Button buttonText = "submit" type="submit" onClick={callbackFunction}/>
+  </form> */}
+
         </div>
     )
 }

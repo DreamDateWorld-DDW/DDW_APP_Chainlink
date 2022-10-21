@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "./DDWTokenSend.css"
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
+import SwipeButton from './SwipeButton/SwipeButton';
 
 const DDWTokenSend = (props) => {
     const [DDWToken, setDDWToken] = useState();
@@ -15,6 +16,7 @@ const DDWTokenSend = (props) => {
     }
 
     const onTransactionSubmit = async (e) => {
+        e.preventDefault();
         if(!Number.isInteger(parseInt(DDWToken))){
             alert("Enter correct number in the field");
             return}
@@ -39,26 +41,19 @@ const DDWTokenSend = (props) => {
           alert("Tokens Sent");
     }
     return (
-        <div>
-            <div className='startdiv'>
-                <label htmlFor="">
-                    Enter DDW Token Amount :
-                    <input type="search" name="enteredAmount" id="enteredAmt" onChange={handleDDWTokenAmountChange}/>
-                </label>
-            </div>
+        <>
+<div className='container' style={{overflowY: "scroll"}}>
+  <form action="/action_page.php">
+    <label for="fname">First Name</label>
+    <input type="text" id="enteredAmt" name="enteredAmount" placeholder="Enter DDW Token Amount" onChange={handleDDWTokenAmountChange}/>
 
-            <div className='startdiv'>
-                <label htmlFor="">
-                    Enter the recipients address :
-                    <input type="search" name="recipientAddress" id="recipientAddress" onChange={handleAddressChange} />
-                </label>
-            </div>
-
-            <div className='startdiv'>
-                <button type="submit" onClick={onTransactionSubmit}>Send Tokens </button>
-            </div>
-
-        </div>
+    <label for="lname">Last Name</label>
+    <input type="text" id="recipientAddress" onChange={handleAddressChange} name="recipientAddress" placeholder="Enter the recipients address"/>
+  
+    <input type="submit" value="Submit" onClick={onTransactionSubmit}/>
+  </form>
+</div>
+        </>
     )
 }
 
