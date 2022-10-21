@@ -155,27 +155,10 @@ const Profile = () => {
                 <label htmlFor="Bio">
                     <textarea wrap='off' className='textArea' placeholder="Remember, be nice!" name="bio" id="" cols="50" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
                 </label>
-
-                <Button buttonText = "submit" type="submit" onClick={callbackFunction}/>
-
+                <div style={{justifyContent: "center" , marginRight: "2.3em"}}>
+                <input style={{paddingRight : "15px"}} onClick={callbackFunction} type="submit" value="Submit"/>
+                </div>
             </form>
-
-  {/* <form action="/action_page.php">
-  <label htmlFor="" className='profileImg' >
-    <img  alt="/" height="100" width="100" />
-    <input type="file" onChange={previewImage}/>
-    </label>
-    <label for="fname">Name</label>
-    <input type="text" name='name' readOnly value={userDetails.name} style={{marginLeft : "20px", width: "200px"}}/>
-    <label for="fname">Interest</label>
-    <Dropdown onInterest={handleInterest} />
-    <label for="fname">Gender</label>
-    <Gender gender="male" onGender={handleGender} />
-    <label htmlFor="Bio">
-    <textarea wrap='off' className='textArea' placeholder="Remember, be nice!" name="bio" id="" cols="50" rows="10" onChange={handleInputs} value={userDetails.bio} >  </textarea>
-    </label>
-    <Button buttonText = "submit" type="submit" onClick={callbackFunction}/>
-  </form> */}
 
         </div>
     )

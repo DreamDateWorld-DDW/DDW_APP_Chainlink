@@ -244,7 +244,7 @@ detectEthereumProvider().then((provider) => {
             buttonText = "Login with Aptos"
             onClick={loginWithAptos}>
              </Button>
-            <Heading style={{marginRight : "2.2em"}}>OR</Heading>
+            <Heading>OR</Heading>
       <Button buttonText = "Login With Metamask"/>
       </SectionContainer>
       <Heading>Register</Heading>

@@ -8,7 +8,7 @@ const Matchelement = (props) => {
   };
 
   return (
-    <div onClick={handleOnClick} className="matches">
+    <div onClick={handleOnClick} className="matches" style={{margin: "100px"}}>
       <div className="card">
         <img
           className={props.className}

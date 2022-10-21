@@ -5,8 +5,7 @@ import "./MatchProfile.css"
 import TypeWriter from './TypeWriter/TypeWriter';
 import axios from 'axios';
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
-import Button from './Button/Button'
-
+import SwipeButton from './SwipeButton/SwipeButton.js'
 
 const Matchprofile = () => {
     const navigate = useNavigate();
@@ -88,12 +87,14 @@ const Matchprofile = () => {
                      
                      <input style={{width:"200px"}} type="text" id="VCTime" className="vcInput" onChange={handleTimeEntry}/>
                 </label>
-
-                <Button buttonText = "Start Your VC" className='buttonMargin' onClick={startVC}/>
+                <div style={{marginRight: "15px", marginTop:"15px"}}>
+                <SwipeButton text = "Start Your VC" className='buttonMargin' onClick={startVC}/>
+                </div>
             </div>
 
-
-            <Button buttonText = "Back" className='buttonMargin' onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})} style={{ margin: "10px" }}/>
+            <div style={{margin: "20px"}}>
+            <SwipeButton text = "Back" className='buttonMargin' onClick={(e) => navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}})} style={{ margin: "10px" }}/>
+            </div>
         </div>
     )
 }
