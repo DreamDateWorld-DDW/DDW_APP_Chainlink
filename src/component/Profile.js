@@ -137,7 +137,7 @@ const Profile = () => {
 
         <div className='profile' style={{marginTop : "50px", maxHeight : "100vh", objectFit: "contain", overflowY: "scroll"}} >
 
-            <form onSubmit={handleInputs}>
+            <form onSubmit={handleInputs} style={{marginBottom : "60px", overflowY: "scroll"}}>
                 
                 <label htmlFor="" className='profileImg' >
                     <img  alt="/" height="100" width="100" />
