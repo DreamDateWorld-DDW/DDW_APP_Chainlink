@@ -289,13 +289,13 @@ module DDW::DDWApp {
                 };
     }
 
-    public entry fun get_matches(account: &signer): (vector<address>, vector<string::String>)acquires LikesInfo {
+    public entry fun get_matches(account: &signer): (vector<address>, vector<u64>, vector<string::String>, vector<u64>)acquires LikesInfo {
         assert!(
             is_account_registered(signer::address_of(account)),
             error::not_found(EACCOUNT_NOT_REGISTERED),
         );
         assert!(exists<LikesInfo>(signer::address_of(account)), error::not_found(ENO_LIKES_INFO));
         let likes_info = borrow_global<LikesInfo>(signer::address_of(account));
-        (*&likes_info.matchedListOnChain, *&likes_info.matchedListOffChain)
+        (*&likes_info.matchedListOnChain, *&likes_info.matchedTimestampListOnChain, *&likes_info.matchedListOffChain, *&likes_info.matchedTimestampListOffChain)
     }
 }

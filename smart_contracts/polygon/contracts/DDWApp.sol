@@ -135,8 +135,8 @@ mapping(address => LikesInfo) private userIDtoLikesInfo;
 
     }
 
-    function get_matches() external view returns(address[] memory, string[] memory) {
-        return (userIDtoLikesInfo[msg.sender].matchedListOnChain, userIDtoLikesInfo[msg.sender].matchedListOffChain);
+    function get_matches() external view returns(address[] memory, uint256[] memory, string[] memory, uint256[] memory) {
+        return (userIDtoLikesInfo[msg.sender].matchedListOnChain, userIDtoLikesInfo[msg.sender].matchedTimestampListOnChain, userIDtoLikesInfo[msg.sender].matchedListOffChain, userIDtoLikesInfo[msg.sender].matchedTimestampListOffChain);
     }
 
     function StringCompare(string memory a, string memory b) internal pure returns(bool) {
