@@ -296,6 +296,6 @@ module DDW::DDWApp {
         );
         assert!(exists<LikesInfo>(signer::address_of(account)), error::not_found(ENO_LIKES_INFO));
         let likes_info = borrow_global<LikesInfo>(signer::address_of(account));
-        (*&likes_info.likedListOnChain, *&likes_info.likedListOffChain)
+        (*&likes_info.matchedListOnChain, *&likes_info.matchedListOffChain)
     }
 }
