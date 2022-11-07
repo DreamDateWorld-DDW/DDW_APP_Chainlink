@@ -6,6 +6,9 @@ import TypeWriter from './TypeWriter/TypeWriter';
 import axios from 'axios';
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
 import SwipeButton from './SwipeButton/SwipeButton.js'
+import { isPolygonWalletCorrect } from './utilities/contract';
+import { createDDWAppWriteContract, createDDWTokenWriteContract } from './utilities/polygon/writeContract';
+import { app_read_contract } from './utilities/polygon/readContract';
 
 const Matchprofile = () => {
     const navigate = useNavigate();
@@ -22,20 +25,46 @@ const Matchprofile = () => {
         if(!Number.isInteger(parseInt(VCTime))){
         alert("Enter correct number in the field");
         return}
-        var isItRightWallet = await isWalletCorrect(userDetails.wallet);
-        if(!isItRightWallet) {
-            alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
-            return;
-        }
-        var trans_res = await signAndSubmitTransaction(
-            {
-                type: "entry_function_payload",
-                function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::create_private_space_on_chain`,
-                arguments: [matchDetails.wallet, parseInt(VCTime)],
-                type_arguments: [],
+        if(userDetails.blockchain === "aptos") {
+            var isItRightWallet = await isWalletCorrect(userDetails.wallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
+                return;
             }
-        )
-        if(!trans_res.transactionSubmitted) return;
+            var trans_res = await signAndSubmitTransaction(
+                {
+                    type: "entry_function_payload",
+                    function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::create_private_space_on_chain`,
+                    arguments: [matchDetails.wallet, parseInt(VCTime)],
+                    type_arguments: [],
+                }
+            )
+            if(!trans_res.transactionSubmitted) return;
+        }
+        else if(userDetails.blockchain === "metamask") {
+            var isItRightWallet = await isPolygonWalletCorrect(userDetails.wallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
+                return;
+            }
+            var DDWContract = createDDWTokenWriteContract();
+            try {
+                let COINS_PER_MIN = await app_read_contract.COINS_PER_MINUTE_OF_PRIVATE_SPACE();
+                let nftTx = await DDWContract.increaseAllowance(process.env.REACT_APP_DDWAPP_CONTRACT_ADDRESS, COINS_PER_MIN.mul(parseInt(VCTime)));
+                console.log("Mining....", nftTx.hash);
+                } catch (error) {
+                console.log("Error increase allowance", error);
+                return;
+                }
+            var Contract = createDDWAppWriteContract();
+            try {
+                let nftTx = await Contract.create_private_space_on_chain(matchDetails.wallet, parseInt(VCTime));
+                console.log("Mining....", nftTx.hash);
+                } catch (error) {
+                console.log("Error create private space", error);
+                return;
+                }
+        }
         var postData = {
             content: `CreatePrivateSpace ${matchDetails.Id} ${userDetails.id} ${VCTime}`,
             username: "Webhook Message Sender",

@@ -1,5 +1,8 @@
+import { ethers } from 'ethers';
 import { React, useState } from 'react'
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
+import { isPolygonWalletCorrect } from './utilities/contract';
+import { createDDWAppWriteContract } from './utilities/polygon/writeContract';
 
 
 const ApprovalToken = (props) => {
@@ -13,20 +16,37 @@ const ApprovalToken = (props) => {
         if(!Number.isInteger(parseInt(amount))){
             alert("Enter correct number in the field");
             return}
-        var isItRightWallet = await isWalletCorrect(props.userWallet);
-        if(!isItRightWallet) {
-            alert(`Wrong Wallet. You should switch to ${props.userWallet}`);
-            return;
-        }
-        var trans_res = await signAndSubmitTransaction(
-            {
-                type: "entry_function_payload",
-                function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::exchange_approval_and_claim_coin`,
-                arguments: [parseInt(amount)],
-                type_arguments: [],
+        if(props.blockchain === "aptos") {
+            var isItRightWallet = await isWalletCorrect(props.userWallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switch to ${props.userWallet}`);
+                return;
             }
-        )
-        if(!trans_res.transactionSubmitted) return;
+            var trans_res = await signAndSubmitTransaction(
+                {
+                    type: "entry_function_payload",
+                    function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::exchange_approval_and_claim_coin`,
+                    arguments: [parseInt(amount)],
+                    type_arguments: [],
+                }
+            )
+            if(!trans_res.transactionSubmitted) return;
+        }
+        else if(props.blockchain === "metamask") {
+            var isItRightWallet = await isPolygonWalletCorrect(props.userWallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switch to ${props.userWallet}`);
+                return;
+            }
+            var Contract = createDDWAppWriteContract();
+            try {
+                let nftTx = await Contract.exchange_approval_and_claim_coin(ethers.utils.parseEther(amount));
+                console.log("Mining....", nftTx.hash);
+                } catch (error) {
+                console.log("Error APP token xchange", error);
+                return;
+                }
+        }
         document.getElementById("inputVal").value = "";
         setAmount("");
         alert("Tokens Claimed");
@@ -47,7 +67,7 @@ const ApprovalToken = (props) => {
 <div className='container'>
   <form action="/action_page.php">
     <label for="fname">First Name</label>
-    <input type="text" name="claimableAmt" onChange={handleChange} type="text" placeholder="Enter Approval Token Amount"/>  
+    <input type="text" name="claimableAmt" onChange={handleChange} placeholder="Enter Approval Token Amount"/>  
     <input onClick={sendChange} type="submit" value="Claim"/>
   </form>
 </div>

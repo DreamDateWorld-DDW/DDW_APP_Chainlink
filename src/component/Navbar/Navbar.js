@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { accountChangeHandler, chainChangedHandler, checkCorrectNetwork, ConnectWalletHandler } from '../utilities/contract';
+import { accountChangeHandler, chainChangedHandler, checkAndGetPolygonAddress} from '../utilities/contract';
 import { checkAndGetAccountAddress, getResourceType, signAndSubmitTransaction } from '../utilities/aptos';
 import { read_from_ipfs } from '../utilities/web3storage';
 import styled from 'styled-components';
 import Button from '../Button/Button';
 import { shorten_address } from '../utilities/utils';
+import { app_read_contract } from '../utilities/polygon/readContract';
 const Navigation = styled.nav`
 top: 50%;
 display: flex;
@@ -95,12 +96,17 @@ function Navbar() {
       window.location.reload();
       return;
     }
-    await checkCorrectNetwork();
-    let returnArray = await ConnectWalletHandler();
-    setMetamaskWalletAddress(returnArray[0]);
-    setWalletConnected(true);
-    setBlockchain("metamask");
-    return returnArray[0];
+    let returnValue = await checkAndGetPolygonAddress();
+    if(returnValue!==null) {
+      var resource = await app_read_contract.is_account_registered(returnValue);
+      if(resource) {
+        alert(`address ${returnValue} is already Registered, Switch to a different address`);
+        return;
+      }
+      setMetamaskWalletAddress(returnValue);
+      setWalletConnected(true);
+      setBlockchain("metamask");
+    }
   }
 
   async function walletLoginAptos() {
@@ -160,18 +166,75 @@ function Navbar() {
       alert("You are not Registered");
       return;
     }
-    var files = await read_from_ipfs(resource.data.ipfsCid);
-    console.log(files);
-    var userDetails = {};
-    let reader = new FileReader();
-    reader.readAsText(files[0]);
-    reader.onload = function() {
-    userDetails = JSON.parse(reader.result);
-    console.log(userDetails);
-    read_from_ipfs(userDetails.image).then((image_files) => {
-      navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: window.URL.createObjectURL(image_files[0])}});
-    })
-    };
+    var files = await read_from_ipfs(resource.data.ipfsCid, "userInfo.json");
+    if(files[0]) {
+      files = files[1]
+      console.log(files);
+      var userDetails = {};
+      let reader = new FileReader();
+      reader.readAsText(files[0]);
+      reader.onload = function() {
+      userDetails = JSON.parse(reader.result);
+      console.log(userDetails);
+      read_from_ipfs(userDetails.image, "avatar.png").then((image_files) => {
+        if(image_files[0])
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: window.URL.createObjectURL(image_files[1][0])}});
+        else
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: image_files[1]}});
+      })
+      };
+    }
+    else {
+      userDetails = files[1];
+      console.log(userDetails);
+      read_from_ipfs(userDetails.image, "avatar.png").then((image_files) => {
+        if(image_files[0])
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: window.URL.createObjectURL(image_files[1][0])}});
+        else
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: image_files[1]}});
+      })
+    }
+  }
+
+  async function loginWithMetamask() {
+    let accountAddress = await checkAndGetPolygonAddress();
+
+    if(!accountAddress) return null;
+
+    var resource = await app_read_contract.is_account_registered(accountAddress);
+    if(!resource) {
+      alert("You are not Registered");
+      return;
+    }
+    var user_details = await app_read_contract.get_user_details(accountAddress);
+    var files = await read_from_ipfs(user_details, "userInfo.json");
+    if(files[0]) {
+      files = files[1]
+      console.log(files);
+      var userDetails = {};
+      let reader = new FileReader();
+      reader.readAsText(files[0]);
+      reader.onload = function() {
+      userDetails = JSON.parse(reader.result);
+      console.log(userDetails);
+      read_from_ipfs(userDetails.image, "avatar.png").then((image_files) => {
+        if(image_files[0])
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: window.URL.createObjectURL(image_files[1][0])}});
+        else
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: image_files[1]}});
+      })
+      };
+    }
+    else {
+      userDetails = files[1];
+      console.log(userDetails);
+      read_from_ipfs(userDetails.image, "avatar.png").then((image_files) => {
+        if(image_files[0])
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: window.URL.createObjectURL(image_files[1][0])}});
+        else
+        navigate("/Userdashboard", {state: {userDetails: userDetails, imageSrc: image_files[1]}});
+      })
+    }
   }
 
   const getInfo = async (code) => {
@@ -263,14 +326,14 @@ detectEthereumProvider().then((provider) => {
             onClick={loginWithAptos}>
              </Button>
             <Heading>OR</Heading>
-      <Button buttonText = "Login With Metamask"/>
+      <Button buttonText = "Login With Metamask" onClick={loginWithMetamask}/>
       </SectionContainer>
       <div style={{display: "flex", textAlign: "center", justifyContent : "center"}}>
       <Heading2>Register</Heading2>
       </div>
 
       <SectionForContainer>
-       <a href = {process.env.REACT_APP_DISCORD_SERVER_LINK}>
+       <a href = {process.env.REACT_APP_DISCORD_SERVER_LINK} target="_blank" rel="noopener noreferrer">
           <Button buttonText = "Join Discord"/>
            </a>
         <a href={process.env.REACT_APP_OAUTH_LINK}>

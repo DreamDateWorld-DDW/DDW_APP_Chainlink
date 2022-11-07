@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Button from './Button/Button'
 import { write_to_ipfs } from './utilities/web3storage'
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos'
+import { isPolygonWalletCorrect } from './utilities/contract'
+import { createDDWAppWriteContract } from './utilities/polygon/writeContract'
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -72,20 +74,39 @@ const Profile = () => {
             info_ipfs_cid = infoIPFS;
             console.log("unchanged everything", info_ipfs_cid);
         }
-        var isItRightWallet = await isWalletCorrect(userDetails.wallet);
-        if(!isItRightWallet) {
-            alert(`Wrong Wallet. You should switcht to ${userDetails.wallet}`);
-            return;
-        }
-        var trans_res = await signAndSubmitTransaction(
-            {
-                type: "entry_function_payload",
-                function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::register`,
-                arguments: [info_ipfs_cid],
-                type_arguments: [],
+        if(userDetails.blockchain === "aptos")
+        {
+            var isItRightWallet = await isWalletCorrect(userDetails.wallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switcht to ${userDetails.wallet}`);
+                return;
             }
-        )
-        if(!trans_res.transactionSubmitted) return;
+            var trans_res = await signAndSubmitTransaction(
+                {
+                    type: "entry_function_payload",
+                    function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::register`,
+                    arguments: [info_ipfs_cid],
+                    type_arguments: [],
+                }
+            )
+            if(!trans_res.transactionSubmitted) return;
+        }
+        else if(userDetails.blockchain === "metamask")
+        {
+            var isItRightWallet = await isPolygonWalletCorrect(userDetails.wallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switcht to ${userDetails.wallet}`);
+                return;
+            }
+            const Contract = createDDWAppWriteContract();
+            try {
+            let nftTx = await Contract.register(info_ipfs_cid);
+            console.log("Mining....", nftTx.hash);
+            } catch (error) {
+            console.log("Error reg", error);
+            return;
+            }
+        }
         var mongoData = {
             date: new Date(Date.now()),
             discordId: userDetails.id,

@@ -6,6 +6,8 @@ import SwipeButton from './SwipeButton/SwipeButton';
 import TypeWriter from './TypeWriter/TypeWriter';
 import "./SearchProfile.css"
 import { isWalletCorrect, signAndSubmitTransaction } from './utilities/aptos';
+import { isPolygonWalletCorrect } from './utilities/contract';
+import { createDDWAppWriteContract } from './utilities/polygon/writeContract';
 
 
 const SearchProfile = () => {
@@ -23,40 +25,74 @@ const SearchProfile = () => {
     }
 
     const onLike = async() => {
-        var isItRightWallet = await isWalletCorrect(userDetails.wallet);
-        if(!isItRightWallet) {
-            alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
-            return;
-        }
-        var trans_res = await signAndSubmitTransaction(
-            {
-                type: "entry_function_payload",
-                function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::like_on_chain`,
-                arguments: [searchDetails.wallet],
-                type_arguments: [],
+        if(userDetails.blockchain === "aptos") {
+            var isItRightWallet = await isWalletCorrect(userDetails.wallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
+                return;
             }
-        )
-        if(!trans_res.transactionSubmitted) return;
+            var trans_res = await signAndSubmitTransaction(
+                {
+                    type: "entry_function_payload",
+                    function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::like_on_chain`,
+                    arguments: [searchDetails.wallet],
+                    type_arguments: [],
+                }
+            )
+            if(!trans_res.transactionSubmitted) return;
+        }
+        else if(userDetails.blockchain === "metamask") {
+            var isItRightWallet = await isPolygonWalletCorrect(userDetails.wallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
+                return;
+            }
+            var Contract = createDDWAppWriteContract();
+            try {
+                let nftTx = await Contract.like_on_chain(searchDetails.wallet);
+                console.log("Mining....", nftTx.hash);
+                } catch (error) {
+                console.log("Error like on chain", error);
+                return;
+                }
+        }
         alert("Liked, now see if they like you back ;)");
         navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}});
 
     }
 
     const onSuperLike = async() => {
-        var isItRightWallet = await isWalletCorrect(userDetails.wallet);
-        if(!isItRightWallet) {
-            alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
-            return;
-        }
-        var trans_res = await signAndSubmitTransaction(
-            {
-                type: "entry_function_payload",
-                function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::super_like_on_chain`,
-                arguments: [searchDetails.wallet],
-                type_arguments: [],
+        if(userDetails.blockchain === "aptos") {
+            var isItRightWallet = await isWalletCorrect(userDetails.wallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
+                return;
             }
-        )
-        if(!trans_res.transactionSubmitted) return;
+            var trans_res = await signAndSubmitTransaction(
+                {
+                    type: "entry_function_payload",
+                    function: `${process.env.REACT_APP_APTOS_CONTRACT_OWNER}::DDWApp::super_like_on_chain`,
+                    arguments: [searchDetails.wallet],
+                    type_arguments: [],
+                }
+            )
+            if(!trans_res.transactionSubmitted) return;
+        }
+        else if(userDetails.blockchain === "metamask") {
+            var isItRightWallet = await isPolygonWalletCorrect(userDetails.wallet);
+            if(!isItRightWallet) {
+                alert(`Wrong Wallet. You should switch to ${userDetails.wallet}`);
+                return;
+            }
+            var Contract = createDDWAppWriteContract();
+            try {
+                let nftTx = await Contract.super_like_on_chain(searchDetails.wallet);
+                console.log("Mining....", nftTx.hash);
+                } catch (error) {
+                console.log("Error like on chain", error);
+                return;
+                }
+        }
         alert("Super Liked, now see if they like you back ;)");
         navigate('/Userdashboard', {state: {userDetails: userDetails, imageSrc: location.state.imageSrc}});
 

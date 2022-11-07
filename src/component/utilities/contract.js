@@ -43,7 +43,7 @@ export const checkCorrectNetwork = async () => {
   };
 
   export const accountChangeHandler = async (newAccount) => {
-    return newAccount;
+    return newAccount[0];
   };
   export const getUserBalance = async (address) => {
     const provider = await detectEthereumProvider();
@@ -55,3 +55,18 @@ export const checkCorrectNetwork = async () => {
   export const chainChangedHandler = () => {
     window.location.reload();
   };
+
+  export const checkAndGetPolygonAddress = async () => {
+    await checkCorrectNetwork();
+    var returnValue = await ConnectWalletHandler();
+    if(returnValue[0])
+    return returnValue[0];
+    else 
+    return null;
+  }
+
+  export const isPolygonWalletCorrect = async (walletAddress) => {
+    var address = await checkAndGetPolygonAddress();
+    return walletAddress === address;
+
+  }
