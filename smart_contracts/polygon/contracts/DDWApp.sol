@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "./DDWToken.sol";
 import "./ApprovalToken.sol";
+import "./chainlink.sol";
 
 contract DDWApp {
 
@@ -45,15 +46,16 @@ address public owner;
 bool public contractPaused;
 address public DDW_CONTRACT_ADDRESS;
 address public APP_CONTRACT_ADDRESS;
+address public CHAINLINK_CONTRACT_ADDRESS;
 
-uint256 public constant APPROVAL_TO_COIN_XR_RATE = 10;
 uint256 public constant COINS_PER_MINUTE_OF_PRIVATE_SPACE = 60e18;
 
-constructor(address ddw_contract, address app_contract) {
+constructor(address ddw_contract, address app_contract, address chainlink_contract) {
     owner = msg.sender;
     contractPaused = false;
     DDW_CONTRACT_ADDRESS = ddw_contract;
     APP_CONTRACT_ADDRESS = app_contract;
+    CHAINLINK_CONTRACT_ADDRESS = chainlink_contract;
 }
 
 mapping(address => UserInfo) private userIDtoUserInfo;
@@ -121,7 +123,7 @@ mapping(address => LikesInfo) private userIDtoLikesInfo;
     function exchange_approval_and_claim_coin(uint256 amount) external notPaused {
         require(amount>0,"Amount cannot be zero");
         ApprovalToken(APP_CONTRACT_ADDRESS).burn(msg.sender, amount);
-        DDWToken(DDW_CONTRACT_ADDRESS).mint(msg.sender, APPROVAL_TO_COIN_XR_RATE*amount);
+        DDWToken(DDW_CONTRACT_ADDRESS).mint(msg.sender, APIConsumer(CHAINLINK_CONTRACT_ADDRESS).APPROVAL_TO_COIN_XR_RATE()*amount);
     }
 
     function create_private_space_on_chain(address with, uint256 duration_in_minutes) external notPaused {
